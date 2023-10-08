@@ -12,11 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Domain\ShareMyEvent.Domain.csproj" />
+    <ProjectReference Include="..\ShareMyEvent.Domain\ShareMyEvents.Domain.csproj" />
+    <ProjectReference Include="..\ShareMyEvents.Domain\ShareMyEvents.Domain.csproj" />
   </ItemGroup>
 
 </Project>
