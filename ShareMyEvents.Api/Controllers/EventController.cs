@@ -1,49 +1,57 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
+using ShareMyEvents.Domain.Dtos.Responses.ParticipantResponses;
 using ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
-using ShareMyEvents.Domain.Models;
+using ShareMyEvents.Domain.Dtos.Resquests.ParticipantRequests;
 
 namespace ShareMyEvent.Api.Controllers;
 [Route("events")]
 [ApiController]
 public class EventController: ControllerBase
 {
-    [HttpGet("{id}")]
-    public ActionResult<EventPageResponse> GetEvent (int id)
+    [HttpGet("{eventId}")]
+    public ActionResult<EventPageResponse> GetEvent (int eventId)
     {
         return StatusCode(StatusCodes.Status201Created);
     }
 
     [HttpPost]
     [Route("new")]
-    public ActionResult<Event> New ([FromBody] EventCreateRequest request)
+    public IActionResult New ([FromBody] EventCreateRequest request)
     {
         return StatusCode(StatusCodes.Status201Created);
     }
 
     [HttpPatch]
-    [Route("update/{id}/title")]
-    public IActionResult UpdateTitle (int id, [FromBody] EventUpdateTitleRequest request)
+    [Route("update/{eventId}/title")]
+    public IActionResult UpdateTitle (int eventId, [FromBody] EventUpdateTitleRequest request)
     {
         return StatusCode(StatusCodes.Status200OK);
     }
 
     [HttpPatch]
-    [Route("update/{id}/description")]
-    public IActionResult UpdateDescription (int id, [FromBody] EventUpdateDescriptionRequest request)
+    [Route("update/{eventId}/description")]
+    public IActionResult UpdateDescription (int eventId, [FromBody] EventUpdateDescriptionRequest request)
     {
         return StatusCode(StatusCodes.Status200OK);
     }
 
     [HttpPatch]
-    [Route("update/{id}/date")]
-    public IActionResult UpdateDate (int id, [FromBody] EventUpdateDateRequest request)
+    [Route("update/{eventId}/date")]
+    public IActionResult UpdateDate (int eventId, [FromBody] EventUpdateDateRequest request)
     {
         return StatusCode(StatusCodes.Status200OK);
     }
 
-    [HttpDelete("{id}")]
-    public IActionResult Delete (int id, [FromBody] EventDeleteRequest request)
+    [HttpPost]
+    [Route("access")]
+    public ActionResult<ParticipantAccessResponse> New ([FromBody] ParticipationAccessRequest request)
+    {
+        return StatusCode(StatusCodes.Status201Created);
+    }
+
+    [HttpDelete("{eventId}")]
+    public IActionResult Delete (int eventId, [FromBody] EventDeleteRequest request)
     {
         return StatusCode(StatusCodes.Status200OK);
     }
