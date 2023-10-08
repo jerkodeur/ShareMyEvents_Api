@@ -1,4 +1,4 @@
-﻿namespace ShareMyEvent.Api.Domain.Models;
+﻿namespace ShareMyEvents.Domain.Models;
 
 public abstract class AbstractEntity
 {

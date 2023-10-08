@@ -1,8 +1,8 @@
-﻿namespace ShareMyEvent.Api.Domain.Models;
+﻿namespace ShareMyEvents.Domain.Models;
 
 public class Actor: AbstractEntity
 {
-    public Actor(string nickname, string email, string password)
+    public Actor (string nickname, string email, string password)
     {
         Nickname = nickname;
         Email = email;

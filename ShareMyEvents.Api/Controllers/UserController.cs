@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShareMyEvent.Domain.Dtos.User;
+using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
 
 namespace ShareMyEvent.Api.Controllers;
 [Route("users")]
@@ -8,21 +8,21 @@ public class UserController: ControllerBase
 {
     [HttpPost]
     [Route("sign-up")]
-    public IActionResult SignUp ([FromBody] UserSignUpDto request)
+    public IActionResult SignUp ([FromBody] UserSignUpRequest request)
     {
         return StatusCode(StatusCodes.Status201Created);
     }
 
     [HttpPost]
     [Route("login")]
-    public IActionResult LogIn ([FromBody] UserLogInDto request)
+    public IActionResult LogIn ([FromBody] UserLogInRequest request)
     {
         return StatusCode(StatusCodes.Status200OK);
     }
 
     [HttpPatch]
     [Route("lost-password")]
-    public IActionResult LostPassword ([FromBody] UserLostPasswordDto request)
+    public IActionResult LostPassword ([FromBody] UserLostPasswordRequest request)
     {
         return StatusCode(StatusCodes.Status202Accepted);
     }
@@ -30,7 +30,7 @@ public class UserController: ControllerBase
 
     [HttpPatch]
     [Route("reset-password")]
-    public IActionResult ResetPassword (UserResetPasswordDto request)
+    public IActionResult ResetPassword (UserResetPasswordRequest request)
     {
         return StatusCode(StatusCodes.Status200OK);
     }

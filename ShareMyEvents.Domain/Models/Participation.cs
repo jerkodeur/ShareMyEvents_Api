@@ -1,8 +1,8 @@
-﻿namespace ShareMyEvent.Api.Domain.Models;
+﻿namespace ShareMyEvents.Domain.Models;
 
 public class Participation: AbstractEntity
 {
-    public Participation(Actor actor,Event @event)
+    public Participation (Actor actor, Event @event)
     {
         Participant = actor;
         Event = @event;

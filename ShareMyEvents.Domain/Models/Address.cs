@@ -1,8 +1,8 @@
-﻿namespace ShareMyEvent.Api.Domain.Models;
+﻿namespace ShareMyEvents.Domain.Models;
 
 public class Address: AbstractEntity
 {
-    public Address(string street, string postalCode, string city, string additional)
+    public Address (string street, string postalCode, string city, string additional)
     {
         Street = street;
         PostalCode = postalCode;
