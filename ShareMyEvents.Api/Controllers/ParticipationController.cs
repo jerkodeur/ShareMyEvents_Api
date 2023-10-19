@@ -3,9 +3,10 @@ using ShareMyEvents.Domain.Dtos.Resquests.ParticipationRequests;
 using ShareMyEvents.Domain.Models;
 
 namespace ShareMyEvent.Api.Controllers;
+
 [Route("participations")]
 [ApiController]
-public class ParticipantController: ControllerBase
+public class ParticipationController: ControllerBase
 {
     [HttpGet("{eventId}")]
     public ActionResult<IEnumerable<Actor>> GetAll (int eventId)
