@@ -5,5 +5,5 @@ public class EventPageResponse
 {
     public required Event Event { get; set; }
     public required Actor Organizer { get; set; }
-    public IEnumerable<Actor>? Participants { get; set;}
+    public IEnumerable<int>? Participants { get; set;}
 }

@@ -4,11 +4,11 @@ namespace ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
 public class UserSignUpRequest
 {
     [Required(ErrorMessage = "Ce champ ne peut être null")]
-    public string Email { get; set; } = string.Empty;
+    public required string Email { get; set; }
 
     [Required(ErrorMessage = "Ce champ ne peut être null")]
-    public string password { get; set; } = string.Empty;
+    public required string password { get; set; }
 
     [Required(ErrorMessage = "Ce champ ne peut être null")]
-    public string Nickname { get; set; } = string.Empty;
+    public required string Nickname { get; set; }
 }

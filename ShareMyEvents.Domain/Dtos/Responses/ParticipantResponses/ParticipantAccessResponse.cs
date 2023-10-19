@@ -1,6 +1,6 @@
 ﻿namespace ShareMyEvents.Domain.Dtos.Responses.ParticipantResponses;
 public class ParticipantAccessResponse
 {
-    public int ParticipantId { get; set; }
-    public int EventId { get; set; }
+    public int ParticipantId { get; init; }
+    public int EventId { get; init; }
 }

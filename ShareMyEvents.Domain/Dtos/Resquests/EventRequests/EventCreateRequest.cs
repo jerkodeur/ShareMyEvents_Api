@@ -5,19 +5,15 @@ namespace ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
 public class EventCreateRequest
 {
     [Required(ErrorMessage = "Ce champ ne peut être null")]
-    public string Title { get; set; } = string.Empty;
+    public required string Title { get; set; }
 
 
     [Required(ErrorMessage = "Ce champ ne peut être null")]
-    public string Description { get; set; } = string.Empty;
+    public required string Description { get; set; }
 
 
     [Required(ErrorMessage = "Ce champ ne peut être null")]
     public DateTime EventDate { get; set; }
 
     public Address? Address { get; set; }
-
-
-    [Required(ErrorMessage = "Impossible de créer l'évènement, une erreur est survenue [Code071]")]
-    public int OrganizerId { get; set; }
 }
