@@ -1,3 +1,5 @@
+﻿using Microsoft.EntityFrameworkCore;
+using ShareMyEvents.Api.Data;
 
 namespace ShareMyEvent.Api;
 
@@ -6,6 +8,8 @@ public class Program
     public static void Main (string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddDbContext<ShareMyEventsApiContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("ShareMyEventsApiContext") ?? throw new InvalidOperationException("Connection string 'ShareMyEventsApiContext' not found.")));
 
         // Add services to the container.
 
