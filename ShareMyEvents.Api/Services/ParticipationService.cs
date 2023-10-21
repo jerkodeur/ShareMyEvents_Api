@@ -1,4 +1,5 @@
-﻿using ShareMyEvents.Api.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ShareMyEvents.Api.Data;
 using ShareMyEvents.Domain.Interfaces;
 using ShareMyEvents.Domain.Models;
 
@@ -10,16 +11,16 @@ public class ParticipationService: IParticipationService
 
     public ParticipationService (ShareMyEventsApiContext context)
     {
-        _context = context ?? throw new NullReferenceException("Internal error: null reference exception");
+        _context = context ?? throw new NullReferenceException($"Internal error: null reference exception: {typeof(ShareMyEventsApiContext)}");
 
         if(context.Participations == null)
         {
-            throw new NullReferenceException("Internal error: null reference exception");
+            throw new NullReferenceException($"Internal error: null reference exception: {typeof(DbSet<Participation>)}");
         }
     }
 
-    public Task<bool> Create () => throw new NotImplementedException();
-    public Task<bool> Delete (int id) => throw new NotImplementedException();
-    public Task<Participation> GetById (int id) => throw new NotImplementedException();
-    public Task<List<int>> GetParticipationsByEventId (int id) => throw new NotImplementedException();
+    public Task<bool> CreateAsync (CancellationToken token) => throw new NotImplementedException();
+    public Task<bool> DeleteAsync (int id, CancellationToken token) => throw new NotImplementedException();
+    public Task<Participation> GetByIdAsync (int id, CancellationToken token) => throw new NotImplementedException();
+    public Task<List<int>> GetParticipationsByEventIdAsync (int id, CancellationToken token) => throw new NotImplementedException();
 }

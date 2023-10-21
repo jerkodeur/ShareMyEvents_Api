@@ -1,4 +1,5 @@
-﻿using ShareMyEvents.Api.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ShareMyEvents.Api.Data;
 using ShareMyEvents.Api.Exceptions;
 using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
 using ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
@@ -19,15 +20,15 @@ public class EventService: IEventService
 
         if(context.Events == null)
         {
-            throw new NullReferenceException("Internal error: null reference exception");
+            throw new NullReferenceException($"Internal error: null reference exception: {typeof(DbSet<Event>)}");
         }
     }
 
-    public async Task<EventPageResponse> GetByIdAsync (int id)
+    public async Task<EventPageResponse> GetByIdAsync (int id, CancellationToken token = default)
     {
-        var @event = await GetOneById(id);
+        var @event = await GetOneByIdAsync(id, token);
 
-        var participants = await _participationService.GetParticipationsByEventId(@event.Id);
+        var participants = await _participationService.GetParticipationsByEventIdAsync(@event.Id, token);
 
         var response = new EventPageResponse()
         {
@@ -39,7 +40,7 @@ public class EventService: IEventService
         return response;
     }
 
-    public async Task<EventCreatedResponse> CreateAsync (EventCreateRequest request)
+    public async Task<EventCreatedResponse> CreateAsync (EventCreateRequest request, CancellationToken token = default)
     {
         var newEvent = new Event()
         {
@@ -53,7 +54,7 @@ public class EventService: IEventService
 
         _context.Events.Add(newEvent);
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(token);
 
         var response = new EventCreatedResponse()
         {
@@ -64,13 +65,13 @@ public class EventService: IEventService
 
     }
 
-    public async Task<EventUpdateDateResponse> UpdateDateResponseAsync (int id, EventUpdateDateRequest request)
+    public async Task<EventUpdateDateResponse> UpdateDateResponseAsync (int id, EventUpdateDateRequest request, CancellationToken token = default)
     {
-        var @event = await GetOneById(id);
+        var @event = await GetOneByIdAsync(id, token);
 
         @event.EventDate = request.EventDate;
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(token);
 
         var response = new EventUpdateDateResponse()
         {
@@ -81,13 +82,13 @@ public class EventService: IEventService
         return response;
     }
     
-    public async Task<EventUpdateDescriptionResponse> UpdateDescriptionResponseAsync (int id, EventUpdateDescriptionRequest request)
+    public async Task<EventUpdateDescriptionResponse> UpdateDescriptionResponseAsync (int id, EventUpdateDescriptionRequest request, CancellationToken token = default)
     {
-        var @event = await GetOneById(id);
+        var @event = await GetOneByIdAsync(id, token);
 
         @event.Description = request.Description;
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(token);
 
         var response = new EventUpdateDescriptionResponse()
         {
@@ -98,13 +99,13 @@ public class EventService: IEventService
         return response;
     }
 
-    public async Task<EventUpdateTitleResponse> UpdateTitleResponseAsync (int id, EventUpdateTitleRequest request)
+    public async Task<EventUpdateTitleResponse> UpdateTitleResponseAsync (int id, EventUpdateTitleRequest request, CancellationToken token = default)
     {
-        var @event = await GetOneById(id);
+        var @event = await GetOneByIdAsync(id, token);
 
         @event.Title = request.Title;
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(token);
 
         var response = new EventUpdateTitleResponse()
         {
@@ -115,21 +116,21 @@ public class EventService: IEventService
         return response;
     }
 
-    public async Task DeleteAsync (int id)
+    public async Task DeleteAsync (int id, CancellationToken token = default)
     {
-        var @event = await GetOneById(id);
+        var @event = await GetOneByIdAsync(id, token);
 
         _context.Remove(@event);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(token);
     }
 
     #region Private Methods
-    private async Task<Event> GetOneById(int eventId)
+    private async Task<Event> GetOneByIdAsync(int eventId, CancellationToken token)
     {
-        var @event = await _context.Events.FindAsync(eventId);
+        var @event = await _context.Events.FindAsync(eventId, token);
 
         if(@event == null)
-            throw new NotFoundException();
+            throw new NotFoundException(nameof(Event));
 
         return @event;
     }

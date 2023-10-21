@@ -3,8 +3,8 @@
 namespace ShareMyEvents.Domain.Interfaces;
 public interface IParticipationService
 {
-    public Task<List<int>> GetParticipationsByEventId (int id);
-    public Task<Participation> GetById (int id);
-    public Task<bool> Create ();
-    public Task<bool> Delete (int id);
+    public Task<List<int>> GetParticipationsByEventIdAsync (int id, CancellationToken token);
+    public Task<Participation> GetByIdAsync (int id, CancellationToken token);
+    public Task<bool> CreateAsync (CancellationToken token);
+    public Task<bool> DeleteAsync (int id, CancellationToken token);
 }
