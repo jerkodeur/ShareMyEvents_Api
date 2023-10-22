@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ShareMyEvents.Api.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace ShareMyEvents.Api.Configuration;
 internal class Startup
@@ -34,8 +35,8 @@ internal class Startup
 
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
         app.UseAuthentication();
+        app.UseAuthorization();
 
         app.MapControllers();
 
@@ -52,9 +53,7 @@ internal class Startup
             services.AddControllers();
 
             // Swagger
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            RegisterSwaggerService(services);
 
             // Authentication with JWT
             RegisterAuthenticationService(services, context);
@@ -86,11 +85,45 @@ internal class Startup
             //options.SaveToken = true;
             options.TokenValidationParameters = new()
             {
+                ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(context.Configuration["Jwt:Secret"])),
+                ValidIssuer = context.Configuration["Jwt:ValidIssuer"],
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
+        });
+    }
 
+    private static void RegisterSwaggerService(IServiceCollection services)
+    {
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "Enter Bearer [space] and then your valid token in the input text below"
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] {}
+                }
+            });
         });
     }
 }
