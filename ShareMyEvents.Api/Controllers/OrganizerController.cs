@@ -1,7 +1,5 @@
-﻿using System.Web.Http.Description;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Domain.Dtos.Responses.Organizer;
-using ShareMyEvents.Domain.Models;
 
 namespace ShareMyEvents.Api.Controllers;
 
@@ -11,8 +9,7 @@ public class OrganizerController: Controller
 {
     [HttpGet()]
     [Route("next-event")]
-    [ResponseType(typeof(OrganizerNextEventSummaryResponse))]
-    public IActionResult GetNextEvent ()
+    public ActionResult<OrganizerNextEventSummaryResponse> GetNextEvent ()
     {
         return StatusCode(StatusCodes.Status200OK);
     }

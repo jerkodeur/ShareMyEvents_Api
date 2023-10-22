@@ -1,4 +1,6 @@
-﻿namespace ShareMyEvents.Domain.Models;
+﻿using ShareMyEvents.Domain.Entities;
+
+namespace ShareMyEvents.Domain.Models;
 
 public class Actor: AbstractEntity
 {
@@ -6,10 +8,11 @@ public class Actor: AbstractEntity
     {
         Nickname = nickname;
         Email = email;
-        Password = password;
     }
 
     public string Nickname { get; set; }
     public string Email { get; set; }
-    public string Password { get; set; }
+
+    public long? userId { get; set; }
+    public User? User { get; set; }
 }

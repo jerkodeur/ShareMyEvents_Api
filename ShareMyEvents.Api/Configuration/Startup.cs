@@ -3,13 +3,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ShareMyEvents.Api.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.OpenApi.Models;
+using ShareMyEvents.Domain.Interfaces;
+using ShareMyEvents.Api.Services;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 
 namespace ShareMyEvents.Api.Configuration;
 internal class Startup
 {
     private static WebApplicationBuilder _builder;
-    private static DbContext _smeDbContext;
 
     public static void Initialize (string[] args)
     {
@@ -18,8 +20,27 @@ internal class Startup
             _builder = WebApplication.CreateBuilder(args);
         }
 
-        RegisterServices ();
+        ConfigureServices ();
         Configure();
+    }
+
+    private static void ConfigureServices()
+    {
+        _builder?.Host.ConfigureServices((context, services) =>
+        {
+            // DbContext
+            ConfigureDbContextService(services);
+
+            services.AddControllers();
+
+            // Swagger
+            ConfigureSwaggerService(services);
+
+            // Authentication with JWT
+            ConfigureAuthenticationService(services, context);
+
+            RegisterDomainServices(services);
+        });
     }
 
     private static void Configure ()
@@ -29,8 +50,8 @@ internal class Startup
         // Configure the HTTP request pipeline.
         if(app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
 
         app.UseHttpsRedirection();
@@ -43,24 +64,7 @@ internal class Startup
         app.Run();
     }
 
-    private static void RegisterServices()
-    {
-        _builder?.Host.ConfigureServices((context, services) =>
-        {
-            // DbContext
-            RegisterDbContextService(services);
-
-            services.AddControllers();
-
-            // Swagger
-            RegisterSwaggerService(services);
-
-            // Authentication with JWT
-            RegisterAuthenticationService(services, context);
-        });
-    }
-
-    private static void RegisterDbContextService(IServiceCollection services)
+    private static void ConfigureDbContextService(IServiceCollection services)
     {
         services.AddDbContext<ShareMyEventsApiContext>(dbContextOptions =>
         {
@@ -73,7 +77,7 @@ internal class Startup
         });
     }
 
-    private static void RegisterAuthenticationService(IServiceCollection services, HostBuilderContext context)
+    private static void ConfigureAuthenticationService(IServiceCollection services, HostBuilderContext context)
     {
         services.AddAuthentication(options =>
         {
@@ -86,6 +90,7 @@ internal class Startup
             options.TokenValidationParameters = new()
             {
                 ValidateIssuerSigningKey = true,
+                ValidateAudience = false,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(context.Configuration["Jwt:Secret"])),
                 ValidIssuer = context.Configuration["Jwt:ValidIssuer"],
                 ValidateLifetime = true,
@@ -94,36 +99,41 @@ internal class Startup
         });
     }
 
-    private static void RegisterSwaggerService(IServiceCollection services)
+    private static void ConfigureSwaggerService(IServiceCollection services)
     {
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(options =>
+
+        services.AddOpenApiDocument(options =>
         {
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+            options.PostProcess = document =>
+            {
+                document.Info = new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "ShareMyEvents Api"
+                };
+            };
+
+            options.OperationProcessors.Add(new OperationSecurityScopeProcessor("JWT Token"));
+
+            options.AddSecurity("JWT Token", new OpenApiSecurityScheme()
             {
                 Name = "Authorization",
-                Type = SecuritySchemeType.ApiKey,
+                Type = OpenApiSecuritySchemeType.ApiKey,
                 Scheme = "Bearer",
                 BearerFormat = "JWT",
-                In = ParameterLocation.Header,
+                In = OpenApiSecurityApiKeyLocation.Header,
                 Description = "Enter Bearer [space] and then your valid token in the input text below"
             });
-
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    new string[] {}
-                }
-            });
         });
+    }
+
+    private static void RegisterDomainServices(IServiceCollection services)
+    {
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IEventService, EventService>();
+        services.AddScoped<IParticipationService, ParticipationService>();
+        services.AddScoped<CancellationTokenSource, CancellationTokenSource>();
     }
 }

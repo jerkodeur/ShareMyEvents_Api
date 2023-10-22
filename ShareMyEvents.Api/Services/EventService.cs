@@ -11,12 +11,12 @@ namespace ShareMyEvents.Api.Services;
 public class EventService: IEventService
 {
     private readonly ShareMyEventsApiContext _context;
-    private readonly ParticipationService _participationService;
+    private readonly IParticipationService _participationService;
 
-    public EventService (ShareMyEventsApiContext context, ParticipationService participationService)
+    public EventService (ShareMyEventsApiContext context, IParticipationService participationService)
     {
         _context = context ?? throw new NullReferenceException($"Internal error: null reference exception: {typeof(ShareMyEventsApiContext)}");
-        _participationService = participationService ?? throw new NullReferenceException($"Internal error: null reference exception: {typeof(ParticipationService)}");
+        _participationService = participationService ?? throw new NullReferenceException($"Internal error: null reference exception: {typeof(IParticipationService)}");
 
         if(context.Events == null)
         {
