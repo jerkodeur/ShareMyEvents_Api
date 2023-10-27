@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Jerkoder.Common.Domain.CQRS;
+using Jerkoder.Common.Domain.CQRS.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Api.Exceptions;
 using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
@@ -12,12 +14,13 @@ namespace ShareMyEvent.Api.Controllers;
 [ApiController]
 public class EventController: ControllerBase
 {
-
+    private readonly IMediator _mediator;
     private readonly IEventService _service;
     private CancellationToken _token;
 
-    public EventController (IEventService service, CancellationTokenSource cancellationToken)
+    public EventController (IMediator mediator, IEventService service, CancellationTokenSource cancellationToken)
     {
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _service = service ?? throw new ArgumentNullException(nameof(service));
         _token = cancellationToken.Token;
     }
@@ -29,7 +32,7 @@ public class EventController: ControllerBase
     /// <response code="400">The request is not valid</response>
     /// <response code="404">If the event doesn't exist</response>
     /// <response code="500">Internal server error</response>
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "GetEvent")]
     public async Task<ActionResult<EventPageResponse>> GetEventAsync (int id)
     {
         EventPageResponse eventPageResponse;
@@ -57,22 +60,25 @@ public class EventController: ControllerBase
     /// <response code="400">The request is not valid</response>
     /// <response code="500">Internal server error</response>
     [HttpPost]
-    [Authorize]
     [Route("new")]
-    public async Task<ActionResult<EventCreatedResponse>> NewEventAsync ([FromBody] EventCreateRequest request)
+    public async Task<ActionResult<EventCreatedResponse>> NewEventAsync ([FromBody] EventCreateDto request)
     {
-        EventCreatedResponse eventCreatedResponse;
+        //EventCreatedResponse eventCreatedResponse;
 
-        try
-        {
-            eventCreatedResponse = await _service.CreateAsync(request, _token);
-        }
-        catch(Exception ex)
-        {
-            return Problem(ex.Message, "NewEventAsync", 500);
-        }
+        //try
+        //{
+        //    eventCreatedResponse = await _service.CreateAsync(request, _token);
+        //}
+        //catch(Exception ex)
+        //{
+        //    return Problem(ex.Message, "NewEventAsync", 500);
+        //}
 
-        return CreatedAtAction("NewEvent", eventCreatedResponse);
+        //return CreatedAtAction("NewEvent", eventCreatedResponse);
+
+        var response = await _mediator.SendAsync(new EventCreateRequest(request), _token);
+        
+        return CreatedAtRoute(routeName: "GetEvent", routeValues: new { id =  response.Id }, value: response);
     }
 
     //[HttpPost]
@@ -92,7 +98,7 @@ public class EventController: ControllerBase
     [HttpPut]
     [Authorize]
     [Route("update/{id}/title")]
-    public async Task<ActionResult<EventUpdateTitleResponse>> UpdateEventTitleAsync (int id, [FromBody] EventUpdateTitleRequest request)
+    public async Task<ActionResult<EventUpdateTitleResponse>> UpdateEventTitleAsync (int id, [FromBody] EventUpdateTitleDto request)
     {
         EventUpdateTitleResponse eventUpdateTitleResponse;
 
@@ -122,7 +128,7 @@ public class EventController: ControllerBase
     [HttpPut]
     [Authorize]
     [Route("update/{id}/description")]
-    public async Task<ActionResult<EventUpdateDescriptionResponse>> UpdateEventDescriptionAsync (int id, [FromBody] EventUpdateDescriptionRequest request)
+    public async Task<ActionResult<EventUpdateDescriptionResponse>> UpdateEventDescriptionAsync (int id, [FromBody] EventUpdateDescriptionDto request)
     {
         EventUpdateDescriptionResponse eventUpdateDescriptionResponse;
 
@@ -152,7 +158,7 @@ public class EventController: ControllerBase
     [HttpPut]
     [Authorize]
     [Route("update/{id}/date")]
-    public async Task<ActionResult<EventUpdateDateResponse>> UpdateEventDateAsync (int id, [FromBody] EventUpdateDateRequest request)
+    public async Task<ActionResult<EventUpdateDateResponse>> UpdateEventDateAsync (int id, [FromBody] EventUpdateDateDto request)
     {
         EventUpdateDateResponse eventUpdateDateResponse;
 

@@ -7,6 +7,9 @@ using ShareMyEvents.Domain.Interfaces;
 using ShareMyEvents.Api.Services;
 using NSwag;
 using NSwag.Generation.Processors.Security;
+using Jerkoder.Common.Core.Configurations;
+using System.Reflection;
+using Jerkoder.Common.Domain.CQRS.Interfaces;
 
 namespace ShareMyEvents.Api.Configuration;
 internal class Startup
@@ -33,11 +36,14 @@ internal class Startup
 
             services.AddControllers();
 
+            // Authentication with JWT
+            ConfigureAuthenticationService(services, context);
+
             // Swagger
             ConfigureSwaggerService(services);
 
-            // Authentication with JWT
-            ConfigureAuthenticationService(services, context);
+            // Mediator
+            ConfigureMediatorService(services);
 
             RegisterDomainServices(services);
         });
@@ -129,11 +135,20 @@ internal class Startup
         });
     }
 
+    private static void ConfigureMediatorService(IServiceCollection services)
+    {
+        var mediator = services.AddMediator(Assembly.GetExecutingAssembly())
+            .BuildServiceProvider()
+            .GetRequiredService<IMediator>();
+
+        _builder.Services.AddSingleton(mediator);
+    }
+
     private static void RegisterDomainServices(IServiceCollection services)
     {
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IEventService, EventService>();
         services.AddScoped<IParticipationService, ParticipationService>();
-        services.AddScoped<CancellationTokenSource, CancellationTokenSource>();
+        services.AddTransient<CancellationTokenSource, CancellationTokenSource>();
     }
 }

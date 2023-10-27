@@ -40,7 +40,7 @@ public class EventService: IEventService
         return response;
     }
 
-    public async Task<EventCreatedResponse> CreateAsync (EventCreateRequest request, CancellationToken token = default)
+    public async Task<EventCreatedResponse> CreateAsync (EventCreateDto request, CancellationToken token = default)
     {
         var newEvent = new Event()
         {
@@ -65,7 +65,7 @@ public class EventService: IEventService
 
     }
 
-    public async Task<EventUpdateDateResponse> UpdateDateResponseAsync (int id, EventUpdateDateRequest request, CancellationToken token = default)
+    public async Task<EventUpdateDateResponse> UpdateDateResponseAsync (int id, EventUpdateDateDto request, CancellationToken token = default)
     {
         var @event = await GetOneByIdAsync(id, token);
 
@@ -82,7 +82,7 @@ public class EventService: IEventService
         return response;
     }
     
-    public async Task<EventUpdateDescriptionResponse> UpdateDescriptionResponseAsync (int id, EventUpdateDescriptionRequest request, CancellationToken token = default)
+    public async Task<EventUpdateDescriptionResponse> UpdateDescriptionResponseAsync (int id, EventUpdateDescriptionDto request, CancellationToken token = default)
     {
         var @event = await GetOneByIdAsync(id, token);
 
@@ -99,7 +99,7 @@ public class EventService: IEventService
         return response;
     }
 
-    public async Task<EventUpdateTitleResponse> UpdateTitleResponseAsync (int id, EventUpdateTitleRequest request, CancellationToken token = default)
+    public async Task<EventUpdateTitleResponse> UpdateTitleResponseAsync (int id, EventUpdateTitleDto request, CancellationToken token = default)
     {
         var @event = await GetOneByIdAsync(id, token);
 

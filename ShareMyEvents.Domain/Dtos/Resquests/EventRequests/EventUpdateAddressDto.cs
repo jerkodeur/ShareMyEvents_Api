@@ -2,7 +2,7 @@
 using ShareMyEvents.Domain.Models;
 
 namespace ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
-public class EventUpdateAddressRequest
+public class EventUpdateAddressDto
 {
     public Address? Address { get; set; }
 

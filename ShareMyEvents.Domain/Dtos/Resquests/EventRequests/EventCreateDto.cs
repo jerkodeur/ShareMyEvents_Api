@@ -2,7 +2,7 @@
 using ShareMyEvents.Domain.Models;
 
 namespace ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
-public class EventCreateRequest
+public class EventCreateDto
 {
     [Required(ErrorMessage = "Ce champ ne peut être null")]
     public required string Title { get; set; }
