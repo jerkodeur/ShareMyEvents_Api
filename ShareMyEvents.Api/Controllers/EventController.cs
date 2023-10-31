@@ -32,6 +32,10 @@ public class EventController: ControllerBase
     /// <response code="400">The request is not valid</response>
     /// <response code="404">If the event doesn't exist</response>
     /// <response code="500">Internal server error</response>
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("{id}", Name = "GetEvent")]
     public async Task<ActionResult<EventPageResponse>> GetEventAsync (int id)
     {
@@ -60,6 +64,10 @@ public class EventController: ControllerBase
     /// <response code="400">The request is not valid</response>
     /// <response code="500">Internal server error</response>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    /// <response code="500">Internal server error</response>
     [Route("new")]
     public async Task<ActionResult<EventCreatedResponse>> NewEventAsync ([FromBody] EventCreateDto request)
     {
@@ -96,6 +104,10 @@ public class EventController: ControllerBase
     /// <response code="404">If the event doesn't exist</response>
     /// <response code="500">Internal server error</response>
     [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize]
     [Route("update/{id}/title")]
     public async Task<ActionResult<EventUpdateTitleResponse>> UpdateEventTitleAsync (int id, [FromBody] EventUpdateTitleDto request)
@@ -126,6 +138,11 @@ public class EventController: ControllerBase
     /// <response code="404">If the event doesn't exist</response>
     /// <response code="500">Internal server error</response>
     [HttpPut]
+
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize]
     [Route("update/{id}/description")]
     public async Task<ActionResult<EventUpdateDescriptionResponse>> UpdateEventDescriptionAsync (int id, [FromBody] EventUpdateDescriptionDto request)
@@ -156,6 +173,10 @@ public class EventController: ControllerBase
     /// <response code="404">If the event doesn't exist</response>
     /// <response code="500">Internal server error</response>
     [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize]
     [Route("update/{id}/date")]
     public async Task<ActionResult<EventUpdateDateResponse>> UpdateEventDateAsync (int id, [FromBody] EventUpdateDateDto request)
@@ -186,6 +207,10 @@ public class EventController: ControllerBase
     /// <response code="404">If the event doesn't exist</response>
     /// <response code="500">Internal server error</response>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize]
     public async Task<IActionResult> DeleteEventAsync (int id)
     {
