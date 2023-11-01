@@ -1,15 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ShareMyEvents.Api.Data;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using ShareMyEvents.Domain.Interfaces;
 using ShareMyEvents.Api.Services;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using Jerkoder.Common.Core.Configurations;
 using System.Reflection;
 using Jerkoder.Common.Domain.CQRS.Interfaces;
+using ShareMyEvents.Api.Configuration.OptionsSetup;
+using ShareMyEvents.Api.Configuration.Authentication;
+using Jerkoder.Common.Domain.Jwt;
+using ShareMyEvents.Domain.Interfaces;
+using ShareMyEvents.Domain.Entities;
 
 namespace ShareMyEvents.Api.Configuration;
 internal class Startup
@@ -58,6 +60,7 @@ internal class Startup
         {
             app.UseOpenApi();
             app.UseSwaggerUi3();
+            app.UseDeveloperExceptionPage();
         }
 
         app.UseHttpsRedirection();
@@ -85,24 +88,10 @@ internal class Startup
 
     private static void ConfigureAuthenticationService(IServiceCollection services, HostBuilderContext context)
     {
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
-        {
-            //options.SaveToken = true;
-            options.TokenValidationParameters = new()
-            {
-                ValidateIssuerSigningKey = true,
-                ValidateAudience = false,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(context.Configuration["Jwt:Secret"])),
-                ValidIssuer = context.Configuration["Jwt:ValidIssuer"],
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-        });
+        services.ConfigureOptions<JwtOptionsSetup>();
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
     }
 
     private static void ConfigureSwaggerService(IServiceCollection services)
@@ -149,6 +138,7 @@ internal class Startup
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IEventService, EventService>();
         services.AddScoped<IParticipationService, ParticipationService>();
+        services.AddScoped<IJwtProvider<User>, JwtProvider>();
         services.AddTransient<CancellationTokenSource, CancellationTokenSource>();
     }
 }

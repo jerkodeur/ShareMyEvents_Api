@@ -27,7 +27,7 @@ public class UserController: ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<ActionResult<UserLoginResponse>> LogInAsync ([FromBody] UserLoginRequest request)
+    public async Task<IActionResult> LogInAsync ([FromBody] UserLoginRequest request)
     {
         try
         {

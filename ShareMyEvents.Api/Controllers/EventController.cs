@@ -63,7 +63,9 @@ public class EventController: ControllerBase
     /// <response code="201">Returns event freshly created</response>
     /// <response code="400">The request is not valid</response>
     /// <response code="500">Internal server error</response>
+    /// <returns>The freshly created Event</returns>
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

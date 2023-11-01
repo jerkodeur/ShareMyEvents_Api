@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using ShareMyEvents.Domain.Dtos.Responses.UserResponses;
-using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
+﻿using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
 
 namespace ShareMyEvents.Domain.Interfaces;
 public interface IAuthenticationService
 {
-    public Task<UserLoginResponse> Authenticate (UserLoginRequest request);
+    public Task<string> Authenticate (UserLoginRequest request);
 }
