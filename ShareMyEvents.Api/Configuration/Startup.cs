@@ -12,6 +12,7 @@ using ShareMyEvents.Api.Configuration.Authentication;
 using ShareMyEvents.Domain.Interfaces;
 using ShareMyEvents.Domain.Entities;
 using Jerkoder.Common.Domain.Jwt.Interfaces;
+using Microsoft.Extensions.Options;
 
 namespace ShareMyEvents.Api.Configuration;
 internal class Startup
@@ -33,10 +34,13 @@ internal class Startup
     {
         _builder?.Host.ConfigureServices((context, services) =>
         {
+            services.AddControllers();
+
+            // Options
+            ConfigureOptions(services);
+
             // DbContext
             ConfigureDbContextService(services);
-
-            services.AddControllers();
 
             // Authentication with JWT
             ConfigureAuthenticationService(services, context);
@@ -75,22 +79,30 @@ internal class Startup
 
     private static void ConfigureDbContextService(IServiceCollection services)
     {
-        services.AddDbContext<ShareMyEventsApiContext>(dbContextOptions =>
+        services.AddDbContext<ShareMyEventsApiContext>((serviceProvider, dbContextOptions) =>
         {
-            IConfiguration configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .Build();
+            var databaseOptions = serviceProvider.GetService<IOptions<DatabaseSqlServerOptions>>()!.Value;
 
-            var connectionString = configuration.GetConnectionString("ShareMyEventsApiContext") ?? throw new InvalidOperationException("Connection string 'ShareMyEventsApiContext' not found.");
-            dbContextOptions.UseSqlServer(connectionString);
+            dbContextOptions.UseSqlServer(databaseOptions.ConnectionString, sqlServerOptionsAction =>
+            {
+                sqlServerOptionsAction.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
+                sqlServerOptionsAction.CommandTimeout(databaseOptions.CommandTimeout);
+            });
+
+            dbContextOptions.EnableDetailedErrors(databaseOptions.EnableDetailedErrors);
+            dbContextOptions.EnableSensitiveDataLogging(databaseOptions.EnableSensitiveDataLogging);
         });
+    }
+
+    private static void ConfigureOptions(IServiceCollection services)
+    {
+        services.ConfigureOptions<DatabaseOptionsSetup>();
+        services.ConfigureOptions<JwtOptionsSetup>();
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
     }
 
     private static void ConfigureAuthenticationService(IServiceCollection services, HostBuilderContext context)
     {
-        services.ConfigureOptions<JwtOptionsSetup>();
-        services.ConfigureOptions<JwtBearerOptionsSetup>();
-
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
     }
 
