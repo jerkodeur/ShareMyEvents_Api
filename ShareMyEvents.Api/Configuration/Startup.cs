@@ -9,9 +9,9 @@ using System.Reflection;
 using Jerkoder.Common.Domain.CQRS.Interfaces;
 using ShareMyEvents.Api.Configuration.OptionsSetup;
 using ShareMyEvents.Api.Configuration.Authentication;
-using Jerkoder.Common.Domain.Jwt;
 using ShareMyEvents.Domain.Interfaces;
 using ShareMyEvents.Domain.Entities;
+using Jerkoder.Common.Domain.Jwt.Interfaces;
 
 namespace ShareMyEvents.Api.Configuration;
 internal class Startup

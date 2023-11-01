@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using ShareMyEvents.Domain.Entities;
 using Microsoft.Extensions.Options;
-using Jerkoder.Common.Domain.Jwt;
+using Jerkoder.Common.Domain.Jwt.Interfaces;
 
 namespace ShareMyEvents.Api.Configuration.Authentication;
 

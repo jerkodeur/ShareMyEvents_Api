@@ -1,4 +1,4 @@
-﻿using Jerkoder.Common.Domain.Jwt;
+﻿using Jerkoder.Common.Domain.Jwt.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using ShareMyEvents.Api.Data;
 using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
