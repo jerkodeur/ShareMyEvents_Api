@@ -16,7 +16,7 @@ public class EventCreateDto
 
 
     [Required(ErrorMessage = "Ce champ ne peut être null")]
-    [DefaultValue("2023/10/29 20:16:00")]
+    [DefaultValue("2023-10-27T22:15:55.151Z")]
     public DateTime EventDate { get; set; }
 
     public Address? Address { get; set; }
