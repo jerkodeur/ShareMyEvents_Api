@@ -1,8 +1,8 @@
-﻿using Jerkoder.Common.Domain.CQRS;
-using Jerkoder.Common.Domain.CQRS.Interfaces;
+﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Api.Exceptions;
+using ShareMyEvents.Api.Requests;
 using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
 using ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
 using ShareMyEvents.Domain.Interfaces;

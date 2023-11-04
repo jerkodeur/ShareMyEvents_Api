@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Jerkoder\Jerkoder.Common.Domain\Jerkoder.Common.Domain.csproj" />
+	<ProjectReference Include="..\Jerkoder.Common.Domain\Jerkoder.Common.Domain.csproj" />
+    <ProjectReference Include="..\Jerkoder.Common.Domain\Jerkoder.Common.Domain.csproj" />
   </ItemGroup>
 
 </Project>

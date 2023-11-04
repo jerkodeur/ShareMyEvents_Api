@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using Jerkoder.Common.Domain.EntityFramework.Interfaces;
+using Jerkoder.Common.Domain.EntityFramework;
 
 namespace ShareMyEvents.Domain.Entities;
 

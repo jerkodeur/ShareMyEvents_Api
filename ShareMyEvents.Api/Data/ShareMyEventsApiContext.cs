@@ -1,4 +1,4 @@
-﻿using Jerkoder.Common.Domain.EntityFramework.Interfaces;
+﻿using Jerkoder.Common.Domain.EntityFramework;
 using ShareMyEvents.Api.Configuration.Entity;
 
 namespace ShareMyEvents.Api.Data
