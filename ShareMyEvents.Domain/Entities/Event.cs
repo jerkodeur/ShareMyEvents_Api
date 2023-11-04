@@ -1,24 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Jerkoder.Common.Domain.EntityFramework.Interfaces;
 
-namespace ShareMyEvents.Domain.Models;
+namespace ShareMyEvents.Domain.Entities;
 
-public class Event: AbstractEntity
+public class Event: BaseEntity
 {
-    [Required]
-    public required string Code { get; init; }
+    public EventId? Id { get; init; }
 
-    [Required]
+    public required Code Code { get; init; }
     public required string Title { get; set; }
-
-    [Required]
     public required string Description { get; set; }
-
-    [Required]
     public required DateTime EventDate { get; set; }
 
-    public int OrganizerId { get; set; }
-    public int? AdressId { get; set; }
+    public required ActorId OrganizerId { get; set; }
 
-    public Address? Address { get; set; }
-    public Actor Organizer { get; set; }
+    public Address Address { get; set; } = null!;
+    public required Actor Organizer { get; set; }
+
+    public List<Participation> Participations { get; set; } = new ();
 }
+
+public record EventId (int Value);

@@ -1,12 +1,14 @@
-﻿namespace ShareMyEvents.Domain.Models;
+﻿using Jerkoder.Common.Domain.EntityFramework.Interfaces;
 
-public class Participation: AbstractEntity
+namespace ShareMyEvents.Domain.Entities;
+
+public class Participation: BaseEntity
 {
-    public int ParticipantId { get; set; }
-    public int EventId { get; set; }
-    public int AvailabilityId { get; set; }
+    public required ActorId ActorId { get; set; }
+    public required EventId EventId { get; init; }
+    public required AvailabilityId AvailabilityId { get; set; }
 
-    public Actor Participant { get; set; }
-    public Event Event { get; set; }
-    public Availability? Availability { get; set; }
+    public required Actor Participant { get; set; }
+    public required Event Event { get; set; }
+    public required Availability Availability { get; set; }
 }

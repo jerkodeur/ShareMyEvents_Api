@@ -1,18 +1,18 @@
-﻿using ShareMyEvents.Domain.Entities;
+﻿using Jerkoder.Common.Domain.EntityFramework.Interfaces;
 
-namespace ShareMyEvents.Domain.Models;
+namespace ShareMyEvents.Domain.Entities;
 
-public class Actor: AbstractEntity
+public class Actor: BaseEntity
 {
-    public Actor (string nickname, string email, string password)
-    {
-        Nickname = nickname;
-        Email = email;
-    }
+    public ActorId? Id { get; init; }
 
-    public string Nickname { get; set; }
-    public string Email { get; set; }
+    public required string Nickname { get; set; }
+    public required string Email { get; set; }
 
-    public long? userId { get; set; }
+    public UserId? userId { get; set; }
     public User? User { get; set; }
+
+    public List<Participation> Participations { get; set; } = new();
 }
+
+public record ActorId (int Value);

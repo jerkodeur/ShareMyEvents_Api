@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ShareMyEvents.Api.Data;
+﻿using ShareMyEvents.Api.Data;
 using ShareMyEvents.Api.Exceptions;
 using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
 using ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
 using ShareMyEvents.Domain.Interfaces;
-using ShareMyEvents.Domain.Models;
 
 namespace ShareMyEvents.Api.Services;
 
@@ -28,7 +26,7 @@ public class EventService: IEventService
     {
         var @event = await GetOneByIdAsync(id, token);
 
-        var participants = await _participationService.GetParticipationsByEventIdAsync(@event.Id, token);
+        var participants = await _participationService.GetParticipationsByEventIdAsync(@event.Id.Value, token);
 
         var response = new EventPageResponse()
         {
@@ -42,14 +40,23 @@ public class EventService: IEventService
 
     public async Task<EventCreatedResponse> CreateAsync (EventCreateDto request, CancellationToken token = default)
     {
+        var organizer = new Actor()
+        {
+            Email = "test",
+            Nickname = "test",
+            Id = new ActorId(10)
+        };
+
         var newEvent = new Event()
         {
+            Id = new EventId(new Random().Next(0, 100)),
             Title = request.Title,
             Description = request.Description,
             EventDate = request.EventDate,
             Address = request.Address,
-            Code = Guid.NewGuid().ToString(), /* To change */
-            //Organizer = // To implement,
+            OrganizerId = organizer.Id,
+            Organizer = organizer,
+            Code = new Code(Guid.NewGuid())/* To change */
         };
 
         _context.Events.Add(newEvent);
@@ -58,7 +65,7 @@ public class EventService: IEventService
 
         var response = new EventCreatedResponse()
         {
-            EventId = newEvent.Id
+            EventId = newEvent.Id.Value
         };
 
         return response;
@@ -75,7 +82,7 @@ public class EventService: IEventService
 
         var response = new EventUpdateDateResponse()
         {
-            EventId = @event.Id,
+            EventId = @event.Id.Value,
             Date = @event.EventDate
         };
 
@@ -91,8 +98,8 @@ public class EventService: IEventService
         await _context.SaveChangesAsync(token);
 
         var response = new EventUpdateDescriptionResponse()
-        {
-            EventId = @event.Id,
+        {   
+            EventId = @event.Id.Value,
             Description = @event.Title
         };
 
@@ -109,7 +116,7 @@ public class EventService: IEventService
 
         var response = new EventUpdateTitleResponse()
         {
-            EventId = @event.Id,
+            EventId = @event.Id.Value,
             Title = @event.Title
         };
 

@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ShareMyEvents.Api.Data;
+﻿using ShareMyEvents.Api.Data;
 using ShareMyEvents.Domain.Interfaces;
-using ShareMyEvents.Domain.Models;
 
 namespace ShareMyEvents.Api.Services;
 

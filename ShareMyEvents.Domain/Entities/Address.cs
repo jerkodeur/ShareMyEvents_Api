@@ -1,16 +1,11 @@
 ﻿using System.ComponentModel;
+using Jerkoder.Common.Domain.EntityFramework.Interfaces;
 
-namespace ShareMyEvents.Domain.Models;
+namespace ShareMyEvents.Domain.Entities;
 
-public class Address: AbstractEntity
+public class Address: BaseEntity
 {
-    public Address (string street, string postalCode, string city, string additional)
-    {
-        Street = street;
-        PostalCode = postalCode;
-        City = city;
-        Additional = additional;
-    }
+    public AddressId Id { get; set; }
 
     [DefaultValue("1 rue des templiers")]
     public string? Street { get; set; } = string.Empty;
@@ -23,4 +18,8 @@ public class Address: AbstractEntity
 
     [DefaultValue("Au fond de la cour à droite")]
     public string? Additional { get; set; } = string.Empty;
+
+    public required Event Event { get; set; }
 }
+
+public record AddressId (int Value);

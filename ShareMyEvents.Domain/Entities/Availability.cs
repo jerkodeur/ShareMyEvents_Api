@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Jerkoder.Common.Domain.EntityFramework.Interfaces;
 
-namespace ShareMyEvents.Domain.Models;
+namespace ShareMyEvents.Domain.Entities;
 
-public class Availability: AbstractEntity
+public class Availability: BaseEntity
 {
-    public Availability (string label)
-    {
-        Label = label;
-    }
+    public AvailabilityId? Id { get; init; }
 
-    [Required]
-    public string Label { get; set; }
+    public required Enums.Availability Label { get; set; } = Enums.Availability.Available;
+
+    public List<Participation> Participations { get; set; } = new();
 }
+
+public record AvailabilityId (int Value);

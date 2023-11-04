@@ -29,4 +29,8 @@
 	<ProjectReference Include="..\..\Jerkoder\Jerkoder.Common.Core\Jerkoder.Common.Core.csproj" />
     <ProjectReference Include="..\ShareMyEvents.Domain\ShareMyEvents.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 </Project>

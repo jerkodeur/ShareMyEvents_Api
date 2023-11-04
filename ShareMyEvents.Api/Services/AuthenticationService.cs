@@ -43,7 +43,8 @@ internal sealed class AuthenticationService: IAuthenticationService
         return new User()
         {
             Email = user.Email,
-            Password = user.password
+            Password = user.password,
+            Role = Domain.Enums.Role.Administrator
         };
         //return await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == user.password);
     }

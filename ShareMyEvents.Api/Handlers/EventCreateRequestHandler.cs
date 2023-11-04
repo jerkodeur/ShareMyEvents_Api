@@ -1,8 +1,6 @@
 ﻿using Jerkoder.Common.Domain.CQRS;
 using Jerkoder.Common.Domain.CQRS.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using ShareMyEvents.Api.Data;
-using ShareMyEvents.Domain.Models;
 
 namespace ShareMyEvents.Api.Handlers;
 
@@ -22,15 +20,23 @@ internal class EventCreateRequestHandler: IRequestHandler<EventCreateRequest, Ev
 
     public async Task<Event> HandleAsync (EventCreateRequest request, CancellationToken cancellationToken)
     {
+        var organizer = new Actor()
+        {
+            Email = "test",
+            Nickname = "test",
+            Id = new ActorId(10)
+        };
+
         var newEvent = new Event()
         {
-            Id = new Random().Next(0, 100),
+            Id = new EventId(new Random().Next(0, 100)),
             Title = request.Dto.Title,
             Description = request.Dto.Description,
             EventDate = request.Dto.EventDate,
             Address = request.Dto.Address,
-            Code = Guid.NewGuid().ToString(), /* To change */
-            //Organizer = // To implement,
+            OrganizerId = organizer.Id,
+            Organizer = organizer,
+            Code = new Code(Guid.NewGuid()), /* To change */
         };
 
         //_context.Events.Add(newEvent);
