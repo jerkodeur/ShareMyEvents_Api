@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ShareMyEvents.Domain.Models;
+using ShareMyEvents.Domain.Entities;
 
 namespace ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
 public class EventUpdateAddressDto

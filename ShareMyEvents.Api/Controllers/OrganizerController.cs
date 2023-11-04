@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShareMyEvents.Domain.Dtos.Responses.Organizer;
+using ShareMyEvents.Domain.Dtos.Responses.OrganizerResponses;
 
 namespace ShareMyEvents.Api.Controllers;
 

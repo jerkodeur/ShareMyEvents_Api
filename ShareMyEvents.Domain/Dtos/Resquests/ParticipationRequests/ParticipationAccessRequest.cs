@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShareMyEvents.Domain.Dtos.Resquests.ParticipantRequests;
+namespace ShareMyEvents.Domain.Dtos.Resquests.ParticipationRequests;
 public class ParticipationAccessRequest
 {
     [Required(ErrorMessage = "Ce champ ne peut être null")]

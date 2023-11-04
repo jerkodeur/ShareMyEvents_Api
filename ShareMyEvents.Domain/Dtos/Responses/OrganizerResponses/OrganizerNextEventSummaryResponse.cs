@@ -1,4 +1,4 @@
-﻿namespace ShareMyEvents.Domain.Dtos.Responses.Organizer;
+﻿namespace ShareMyEvents.Domain.Dtos.Responses.OrganizerResponses;
 public class OrganizerNextEventSummaryResponse
 {
     public int Id { get; init; }

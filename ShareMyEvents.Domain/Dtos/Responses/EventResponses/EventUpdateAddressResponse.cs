@@ -1,4 +1,4 @@
-﻿using ShareMyEvents.Domain.Models;
+﻿using ShareMyEvents.Domain.Entities;
 
 namespace ShareMyEvents.Domain.Dtos.Responses.EventResponses;
 public class EventUpdateAddressResponse

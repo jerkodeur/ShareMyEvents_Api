@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Domain.Dtos.Resquests.ParticipationRequests;
-using ShareMyEvents.Domain.Models;
+using ShareMyEvents.Domain.Entities;
 
 namespace ShareMyEvent.Api.Controllers;
 

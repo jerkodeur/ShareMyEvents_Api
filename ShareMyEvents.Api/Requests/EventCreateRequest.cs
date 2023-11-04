@@ -1,6 +1,5 @@
 ﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
 using ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
-using ShareMyEvents.Domain.Models;
 
 namespace Jerkoder.Common.Domain.CQRS;
 
