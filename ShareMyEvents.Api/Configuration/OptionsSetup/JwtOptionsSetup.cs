@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using ShareMyEvents.Api.Configuration.Authentication;
+﻿using Jerkoder.Common.Domain.Jwt;
+using Microsoft.Extensions.Options;
 
 namespace ShareMyEvents.Api.Configuration.OptionsSetup;
 

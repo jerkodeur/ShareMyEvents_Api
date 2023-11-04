@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ShareMyEvents.Api.Data;
 using ShareMyEvents.Api.Services;
 using NSwag;
@@ -10,9 +9,9 @@ using Jerkoder.Common.Domain.CQRS.Interfaces;
 using ShareMyEvents.Api.Configuration.OptionsSetup;
 using ShareMyEvents.Api.Configuration.Authentication;
 using ShareMyEvents.Domain.Interfaces;
-using ShareMyEvents.Domain.Entities;
 using Jerkoder.Common.Domain.Jwt.Interfaces;
 using Microsoft.Extensions.Options;
+using Jerkoder.Common.Domain.Database;
 
 namespace ShareMyEvents.Api.Configuration;
 internal class Startup

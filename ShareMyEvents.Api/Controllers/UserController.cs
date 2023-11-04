@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Api.Exceptions;
-using ShareMyEvents.Domain.Dtos.Responses.UserResponses;
 using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
 using ShareMyEvents.Domain.Interfaces;
 
-namespace ShareMyEvent.Api.Controllers;
+namespace ShareMyEvents.Api.Controllers;
 [Route("users")]
 [ApiController]
 public class UserController: ControllerBase
 {
     private IAuthenticationService _service { get; set; }
 
-    public UserController(IAuthenticationService service)
+    public UserController (IAuthenticationService service)
     {
         _service = service ?? throw new ArgumentNullException(nameof(service));
     }

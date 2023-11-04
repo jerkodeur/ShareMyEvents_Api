@@ -7,7 +7,7 @@ using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
 using ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
 using ShareMyEvents.Domain.Interfaces;
 
-namespace ShareMyEvent.Api.Controllers;
+namespace ShareMyEvents.Api.Controllers;
 [Route("events")]
 [Produces("application/json")]
 [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -86,8 +86,8 @@ public class EventController: ControllerBase
         //return CreatedAtAction("NewEvent", eventCreatedResponse);
 
         var response = await _mediator.SendAsync(new EventCreateRequest(request), _token);
-        
-        return CreatedAtRoute(routeName: "GetEvent", routeValues: new { id =  response.Id }, value: response);
+
+        return CreatedAtRoute(routeName: "GetEvent", routeValues: new { id = response.Id }, value: response);
     }
 
     //[HttpPost]

@@ -1,6 +1,6 @@
-﻿using Jerkoder.Common.Domain.CQRS;
-using Jerkoder.Common.Domain.CQRS.Interfaces;
+﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
 using ShareMyEvents.Api.Data;
+using ShareMyEvents.Api.Requests;
 
 namespace ShareMyEvents.Api.Handlers;
 

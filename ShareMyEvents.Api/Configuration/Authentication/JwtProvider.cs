@@ -2,9 +2,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using ShareMyEvents.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Jerkoder.Common.Domain.Jwt.Interfaces;
+using Jerkoder.Common.Domain.Jwt;
 
 namespace ShareMyEvents.Api.Configuration.Authentication;
 

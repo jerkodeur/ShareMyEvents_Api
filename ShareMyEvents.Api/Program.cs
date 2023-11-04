@@ -1,6 +1,6 @@
 ﻿using ShareMyEvents.Api.Configuration;
 
-namespace ShareMyEvent.Api;
+namespace ShareMyEvents.Api;
 
 public class Program
 {

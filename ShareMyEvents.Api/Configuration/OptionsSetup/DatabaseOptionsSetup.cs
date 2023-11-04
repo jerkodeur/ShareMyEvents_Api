@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Jerkoder.Common.Domain.Database;
+using Microsoft.Extensions.Options;
 
 namespace ShareMyEvents.Api.Configuration.OptionsSetup;
 

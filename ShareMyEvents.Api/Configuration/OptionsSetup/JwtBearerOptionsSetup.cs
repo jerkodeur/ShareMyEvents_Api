@@ -1,8 +1,8 @@
 ﻿using System.Text;
+using Jerkoder.Common.Domain.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using ShareMyEvents.Api.Configuration.Authentication;
 
 namespace ShareMyEvents.Api.Configuration.OptionsSetup;
 
