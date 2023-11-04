@@ -27,17 +27,6 @@ internal class EventEntityConfiguration : IEntityTypeConfiguration<Event>
             Id => Id.Value,
             value => new ActorId(value));
 
-        builder.HasOne(e => e.Organizer)
-            .WithMany()
-            .HasForeignKey(e => e.OrganizerId)
-            .IsRequired();
-
-        builder.HasOne(e => e.Address)
-            .WithOne(a => a.Event)
-            .HasForeignKey<Address>("EventId")
-            .OnDelete(DeleteBehavior.SetNull)
-            .IsRequired(false);
-
         builder.HasIndex(e => e.Code).IsUnique();
     }
 }
