@@ -3,7 +3,7 @@ using Jerkoder.Common.Domain.EntityFramework;
 
 namespace ShareMyEvents.Domain.Entities;
 
-public class Address: BaseEntity
+public class Address: TrackedEntity
 {
     public AddressId? Id { get; set; }
 

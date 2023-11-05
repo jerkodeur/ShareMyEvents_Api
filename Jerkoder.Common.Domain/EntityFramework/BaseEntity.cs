@@ -2,7 +2,12 @@
 
 namespace Jerkoder.Common.Domain.EntityFramework;
 
-public class BaseEntity: IEntity
+public abstract class BaseEntity: IEntity
+{
+    
+}
+
+public class TrackedEntity: BaseEntity, ITrackedEntity
 {
     public DateTime CreatedOn { get; set; }
     public DateTime UpdatedOn { get; set; }

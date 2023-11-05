@@ -3,7 +3,7 @@ using ShareMyEvents.Domain.Enums;
 
 namespace ShareMyEvents.Domain.Entities;
 
-public class User : BaseEntity
+public class User : TrackedEntity
 {
     public UserId? Id { get; init; }
 

@@ -52,7 +52,7 @@ namespace ShareMyEvents.Api.Database
             {
                 // for entities that inherit from BaseEntity,
                 // set UpdatedOn / CreatedOn appropriately
-                if(entry.Entity is BaseEntity trackable)
+                if(entry.Entity is TrackedEntity trackable)
                 {
                     switch(entry.State)
                     {

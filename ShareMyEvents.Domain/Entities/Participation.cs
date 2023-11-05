@@ -2,7 +2,7 @@
 
 namespace ShareMyEvents.Domain.Entities;
 
-public class Participation: BaseEntity
+public class Participation: TrackedEntity
 {
     public required ActorId ActorId { get; set; }
     public required EventId EventId { get; init; }

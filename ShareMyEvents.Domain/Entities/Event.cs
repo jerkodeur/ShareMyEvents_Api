@@ -2,7 +2,7 @@
 
 namespace ShareMyEvents.Domain.Entities;
 
-public class Event: BaseEntity
+public class Event: TrackedEntity
 {
     public EventId? Id { get; init; }
 
