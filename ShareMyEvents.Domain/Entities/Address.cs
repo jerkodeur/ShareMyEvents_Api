@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
 using Jerkoder.Common.Domain.EntityFramework;
 
 namespace ShareMyEvents.Domain.Entities;
@@ -19,6 +20,7 @@ public class Address: TrackedEntity
     [DefaultValue("Au fond de la cour à droite")]
     public string? Additional { get; set; } = string.Empty;
 
+    [JsonIgnore]
     public required Event Event { get; set; }
 }
 
