@@ -1,4 +1,4 @@
-﻿using ShareMyEvents.Api.Data;
+﻿using ShareMyEvents.Api.Database;
 using ShareMyEvents.Api.Exceptions;
 using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
 using ShareMyEvents.Domain.Dtos.Resquests.EventRequests;

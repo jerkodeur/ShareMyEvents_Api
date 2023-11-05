@@ -1,9 +1,9 @@
 ﻿using Jerkoder.Common.Domain.EntityFramework;
 using ShareMyEvents.Api.Configuration.Entity;
 
-namespace ShareMyEvents.Api.Data
+namespace ShareMyEvents.Api.Database
 {
-    public class ShareMyEventsApiContext : DbContext
+    public class ShareMyEventsApiContext: DbContext
     {
         public ShareMyEventsApiContext (DbContextOptions<ShareMyEventsApiContext> options)
             : base(options)
@@ -13,8 +13,8 @@ namespace ShareMyEvents.Api.Data
         public DbSet<User> Users { get; set; } = default!;
         public DbSet<Actor> Actors { get; set; } = default!;
         public DbSet<Event> Events { get; set; } = default!;
-        public DbSet<Address> Addresses { get; set; } = default!;
-        public DbSet<Availability> Availabilities{ get; set; } = default!;
+        public DbSet<Event> Addresses { get; set; } = default!;
+        public DbSet<Availability> Availabilities { get; set; } = default!;
         public DbSet<Participation> Participations { get; set; } = default!;
 
         protected override void OnModelCreating (ModelBuilder modelBuilder)
@@ -35,12 +35,12 @@ namespace ShareMyEvents.Api.Data
 
         public override async Task<int> SaveChangesAsync (
            bool acceptAllChangesOnSuccess,
-           CancellationToken cancellationToken = default(CancellationToken)
+           CancellationToken cancellationToken = default
         )
         {
             OnBeforeSaving();
-            return (await base.SaveChangesAsync(acceptAllChangesOnSuccess,
-                          cancellationToken));
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess,
+                          cancellationToken);
         }
 
         private void OnBeforeSaving ()

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ShareMyEvents.Api.Data;
 using ShareMyEvents.Api.Services;
 using NSwag;
 using NSwag.Generation.Processors.Security;
@@ -12,6 +11,7 @@ using ShareMyEvents.Domain.Interfaces;
 using Jerkoder.Common.Domain.Jwt.Interfaces;
 using Microsoft.Extensions.Options;
 using Jerkoder.Common.Domain.Database;
+using ShareMyEvents.Api.Database;
 
 namespace ShareMyEvents.Api.Configuration;
 internal class Startup
@@ -150,6 +150,7 @@ internal class Startup
         services.AddScoped<IEventService, EventService>();
         services.AddScoped<IParticipationService, ParticipationService>();
         services.AddScoped<IJwtProvider<User>, JwtProvider>();
+        services.AddTransient<IUnitOfWork, UnitOfWork>();
         services.AddTransient<CancellationTokenSource, CancellationTokenSource>();
     }
 }

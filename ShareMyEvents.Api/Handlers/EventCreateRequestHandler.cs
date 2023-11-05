@@ -1,21 +1,16 @@
 ﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
-using ShareMyEvents.Api.Data;
 using ShareMyEvents.Api.Requests;
+using ShareMyEvents.Domain.Interfaces;
 
 namespace ShareMyEvents.Api.Handlers;
 
 internal class EventCreateRequestHandler: IRequestHandler<EventCreateRequest, Event>
 {
-    private readonly ShareMyEventsApiContext _context;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public EventCreateRequestHandler(ShareMyEventsApiContext context)
+    public EventCreateRequestHandler(IUnitOfWork unitOfWork)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-
-        if(context.Events == null)
-        {
-            throw new NullReferenceException($"Internal error: null reference exception: {typeof(DbSet<Event>)}");
-        }
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
     public async Task<Event> HandleAsync (EventCreateRequest request, CancellationToken cancellationToken)
@@ -39,10 +34,8 @@ internal class EventCreateRequestHandler: IRequestHandler<EventCreateRequest, Ev
             Code = new Code(Guid.NewGuid()), /* To change */
         };
 
-        //_context.Events.Add(newEvent);
-
-        //await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-        await Task.CompletedTask.ConfigureAwait (false);
+        await _unitOfWork.EventRepo.Add(newEvent);
+        await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return newEvent;
     }

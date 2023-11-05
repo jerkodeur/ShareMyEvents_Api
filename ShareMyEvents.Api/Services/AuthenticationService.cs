@@ -1,8 +1,6 @@
 ﻿using Jerkoder.Common.Domain.Jwt.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using ShareMyEvents.Api.Data;
+using ShareMyEvents.Api.Database;
 using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
-using ShareMyEvents.Domain.Entities;
 using ShareMyEvents.Domain.Interfaces;
 
 namespace ShareMyEvents.Api.Services;
@@ -42,6 +40,7 @@ internal sealed class AuthenticationService: IAuthenticationService
 
         return new User()
         {
+            Id = new UserId(new Random().Next(1, 100)),
             Email = user.Email,
             Password = user.password,
             Role = Domain.Enums.Role.Administrator

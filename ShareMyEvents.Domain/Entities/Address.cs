@@ -5,7 +5,7 @@ namespace ShareMyEvents.Domain.Entities;
 
 public class Address: BaseEntity
 {
-    public AddressId Id { get; set; }
+    public AddressId? Id { get; set; }
 
     [DefaultValue("1 rue des templiers")]
     public string? Street { get; set; } = string.Empty;

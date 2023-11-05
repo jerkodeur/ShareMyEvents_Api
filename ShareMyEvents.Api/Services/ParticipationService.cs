@@ -1,4 +1,4 @@
-﻿using ShareMyEvents.Api.Data;
+﻿using ShareMyEvents.Api.Database;
 using ShareMyEvents.Domain.Interfaces;
 
 namespace ShareMyEvents.Api.Services;
