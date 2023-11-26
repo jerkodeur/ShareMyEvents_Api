@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Jerkoder.Common.Domain.CQRS.Interfaces.Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ShareMyEvents.Api.Exceptions;
+using ShareMyEvents.Api.Requests.UserRequests;
 using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
 using ShareMyEvents.Domain.Interfaces;
 
@@ -9,16 +10,27 @@ namespace ShareMyEvents.Api.Controllers;
 [ApiController]
 public class UserController: ControllerBase
 {
+    private readonly IMediator _mediator;
+    private readonly CancellationToken _token;
+
     private IAuthenticationService _service { get; set; }
 
-    public UserController (IAuthenticationService service)
+    public UserController (IAuthenticationService service, IMediator mediator, CancellationTokenSource cancellationToken)
     {
         _service = service ?? throw new ArgumentNullException(nameof(service));
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+        if (cancellationToken is null)
+        {
+            throw new ArgumentNullException(nameof(cancellationToken));
+        }
+
+        _token = cancellationToken.Token;
     }
 
     [HttpPost]
     [Route("sign-up")]
-    public async Task<IActionResult> SignUpAsync ([FromBody] UserSignUpRequest request)
+    public async Task<IActionResult> SignUpAsync ([FromBody] UserSignUpDto request)
     {
         await Task.CompletedTask;
         return StatusCode(StatusCodes.Status201Created);
@@ -26,28 +38,27 @@ public class UserController: ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> LogInAsync ([FromBody] UserLoginRequest request)
+    public async Task<IActionResult> LogInAsync ([FromBody] UserLoginCommand request)
     {
-        try
-        {
-            var response = await _service.Authenticate(request);
 
-            return Ok(response);
-        }
-        catch(UnauthorizedException ex)
+        var result = await _mediator.SendAsync(new UserLogInCommandRequest(request), _token);
+       
+        if (result.IsSucceeded)
         {
-            return Unauthorized(ex.Message);
+            return Ok(result.Response);
         }
-        catch(NullReferenceException ex)
+
+        return result.Error.code switch
         {
-            return Problem(ex.Message, "LogInAsync", 500);
-        }
+            "User.NotFound" => NotFound(result.Error),
+            _ => BadRequest(result.Error)
+        };
     }
 
     [HttpPatch]
     [Authorize]
-    [Route("lost-password")]
-    public async Task<IActionResult> LostPasswordAsync ([FromBody] UserLostPasswordRequest request)
+    [Route("lost-Password")]
+    public async Task<IActionResult> LostPasswordAsync ([FromBody] UserLostPasswordDto request)
     {
         await Task.CompletedTask;
         return StatusCode(StatusCodes.Status202Accepted);
@@ -56,8 +67,8 @@ public class UserController: ControllerBase
 
     [HttpPatch]
     [Authorize]
-    [Route("reset-password")]
-    public async Task<IActionResult> ResetPasswordAsync (UserResetPasswordRequest request)
+    [Route("reset-Password")]
+    public async Task<IActionResult> ResetPasswordAsync (UserResetPasswordDto request)
     {
         await Task.CompletedTask;
         return StatusCode(StatusCodes.Status200OK);

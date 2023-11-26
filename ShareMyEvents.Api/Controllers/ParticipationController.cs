@@ -15,20 +15,20 @@ public class ParticipationController: ControllerBase
 
     [HttpPost]
     [Route("new")]
-    public IActionResult New ([FromBody] ParticipationCreateRequest request)
+    public IActionResult New ([FromBody] ParticipationCreateDto request)
     {
         return StatusCode(StatusCodes.Status201Created);
     }
 
     [HttpPatch]
     [Route("availability/{participationId}")]
-    public IActionResult UpdateAvailability (int participationId, [FromBody] ParticipationUpdateAvailabilityRequest request)
+    public IActionResult UpdateAvailability (int participationId, [FromBody] ParticipationUpdateAvailabilityDto request)
     {
         return StatusCode(StatusCodes.Status200OK);
     }
 
     [HttpDelete("{participationId}")]
-    public IActionResult Delete (int participationId, [FromBody] ParticipationDeleteRequest request)
+    public IActionResult Delete (int participationId, [FromBody] ParticipationDeleteDto request)
     {
         return StatusCode(StatusCodes.Status200OK);
     }

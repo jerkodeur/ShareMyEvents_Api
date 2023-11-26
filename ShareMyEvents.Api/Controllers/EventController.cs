@@ -1,10 +1,11 @@
-﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
+﻿using Jerkoder.Common.Domain.CQRS.Interfaces.Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Api.Exceptions;
-using ShareMyEvents.Api.Requests;
+using ShareMyEvents.Api.Requests.EventRequests;
 using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
-using ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
+using ShareMyEvents.Domain.Dtos.Resquests.EventRequests.Commands;
+using ShareMyEvents.Domain.Enums;
 using ShareMyEvents.Domain.Interfaces;
 
 namespace ShareMyEvents.Api.Controllers;
@@ -69,25 +70,22 @@ public class EventController: ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = nameof(Role.IdentifiedUser))]
     [Route("new")]
-    public async Task<ActionResult<EventCreatedResponse>> NewEventAsync ([FromBody] EventCreateDto request)
+    public async Task<ActionResult<EventCreatedResponse>> NewEventAsync ([FromBody] EventCreateCommand request)
     {
-        //EventCreatedResponse eventCreatedResponse;
+        var result = await _mediator.SendAsync(new EventCreateCommandRequest(request), _token);
 
-        //try
-        //{
-        //    eventCreatedResponse = await _service.CreateAsync(request, _token);
-        //}
-        //catch(Exception ex)
-        //{
-        //    return Problem(ex.Message, "NewEventAsync", 500);
-        //}
+        if(result.IsSucceeded)
+        {
+            CreatedAtRoute(routeName: "GetEvent", routeValues: new { id = result.Response.Id }, value: result.Response);
+        }
 
-        //return CreatedAtAction("NewEvent", eventCreatedResponse);
-
-        var response = await _mediator.SendAsync(new EventCreateRequest(request), _token);
-
-        return CreatedAtRoute(routeName: "GetEvent", routeValues: new { id = response.Id }, value: response);
+        return result.Error.code switch
+        {
+            "Event.NotFound" => NotFound(result.Error),
+            _ => BadRequest(result.Error)
+        };
     }
 
     //[HttpPost]
@@ -109,7 +107,7 @@ public class EventController: ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Authorize]
+    [Authorize(Roles = nameof(Role.IdentifiedUser))]
     [Route("update/{id}/title")]
     public async Task<ActionResult<EventUpdateTitleResponse>> UpdateEventTitleAsync (int id, [FromBody] EventUpdateTitleDto request)
     {
@@ -144,7 +142,7 @@ public class EventController: ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Authorize]
+    [Authorize(Roles = nameof(Role.IdentifiedUser))]
     [Route("update/{id}/description")]
     public async Task<ActionResult<EventUpdateDescriptionResponse>> UpdateEventDescriptionAsync (int id, [FromBody] EventUpdateDescriptionDto request)
     {
@@ -178,7 +176,7 @@ public class EventController: ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Authorize]
+    [Authorize(Roles = nameof(Role.IdentifiedUser))]
     [Route("update/{id}/date")]
     public async Task<ActionResult<EventUpdateDateResponse>> UpdateEventDateAsync (int id, [FromBody] EventUpdateDateDto request)
     {
@@ -212,7 +210,7 @@ public class EventController: ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Authorize]
+    [Authorize(Roles = nameof(Role.IdentifiedUser))]
     public async Task<IActionResult> DeleteEventAsync (int id)
     {
         try

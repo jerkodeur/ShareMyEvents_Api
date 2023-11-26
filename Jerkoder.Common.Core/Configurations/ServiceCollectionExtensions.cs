@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Jerkoder.Common.Core.CQRS;
-using Jerkoder.Common.Domain.CQRS.Interfaces;
+using Jerkoder.Common.Domain.CQRS.Interfaces.Mediator;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Jerkoder.Common.Core.Configurations;

@@ -1,4 +1,4 @@
-﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
+﻿using Jerkoder.Common.Domain.CQRS.Interfaces.Mediator;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Jerkoder.Common.Core.CQRS;
