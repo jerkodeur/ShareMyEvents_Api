@@ -2,10 +2,8 @@
 
 namespace ShareMyEvents.Domain.Entities;
 
-public class Event: TrackedEntity
+public class Event: TrackedEntity<EventId>
 {
-    public EventId? Id { get; init; }
-
     public required Code Code { get; init; }
     public required string Title { get; set; }
     public required string Description { get; set; }
@@ -19,4 +17,4 @@ public class Event: TrackedEntity
     public List<Participation> Participations { get; set; } = new ();
 }
 
-public record EventId (int Value);
+public record EventId (int Value): StronglyTypeId;

@@ -4,10 +4,8 @@ using Jerkoder.Common.Domain.EntityFramework;
 
 namespace ShareMyEvents.Domain.Entities;
 
-public class Address: TrackedEntity
+public class Address: TrackedEntity<AddressId>
 {
-    public AddressId? Id { get; set; }
-
     [DefaultValue("1 rue des templiers")]
     public string? Street { get; set; } = string.Empty;
 
@@ -24,4 +22,4 @@ public class Address: TrackedEntity
     public required Event Event { get; set; }
 }
 
-public record AddressId (int Value);
+public record AddressId (int Value): StronglyTypeId;

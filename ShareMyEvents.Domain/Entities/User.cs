@@ -3,14 +3,12 @@ using ShareMyEvents.Domain.Enums;
 
 namespace ShareMyEvents.Domain.Entities;
 
-public class User : TrackedEntity
+public class User : TrackedEntity<UserId>
 {
-    public UserId? Id { get; init; }
-
     public required string Email { get; set; }
     public required string Password { get; set; }
 
     public required Role Role { get; set; }
 }
 
-public record UserId (int Value);
+public record UserId (int Value): StronglyTypeId;

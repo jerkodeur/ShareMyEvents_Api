@@ -2,10 +2,8 @@
 
 namespace ShareMyEvents.Domain.Entities;
 
-public class Actor: TrackedEntity
+public class Actor: TrackedEntity<ActorId>
 {
-    public ActorId? Id { get; init; }
-
     public required string Nickname { get; set; }
     public required string Email { get; set; }
 
@@ -15,4 +13,4 @@ public class Actor: TrackedEntity
     public List<Participation> Participations { get; set; } = new();
 }
 
-public record ActorId (int Value);
+public record ActorId(int Value): StronglyTypeId;
