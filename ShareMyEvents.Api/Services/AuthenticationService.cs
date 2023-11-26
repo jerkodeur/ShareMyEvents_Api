@@ -21,7 +21,7 @@ internal sealed class AuthenticationService: IAuthenticationService
         }
     }
 
-    public async Task<string> Authenticate (UserLoginRequest RequestedUser)
+    public async Task<string> Authenticate (UserLoginCommand RequestedUser)
     {
         var user = await getUserAsync(RequestedUser);
 
@@ -34,7 +34,7 @@ internal sealed class AuthenticationService: IAuthenticationService
         return token;
     }
 
-    private async Task<User?> getUserAsync(UserLoginRequest user)
+    private async Task<User?> getUserAsync(UserLoginCommand user)
     {
         Task.CompletedTask.Wait(100);
 
@@ -42,9 +42,9 @@ internal sealed class AuthenticationService: IAuthenticationService
         {
             Id = new UserId(new Random().Next(1, 100)),
             Email = user.Email,
-            Password = user.password,
+            Password = user.Password,
             Role = Domain.Enums.Role.Administrator
         };
-        //return await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == user.password);
+        //return await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == user.Password);
     }
 }

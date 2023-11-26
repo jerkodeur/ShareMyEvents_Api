@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
+namespace ShareMyEvents.Domain.Dtos.Resquests.EventRequests.Commands;
 public class EventUpdateDateDto
 {
     [Required(ErrorMessage = "Ce champ ne peut être null")]

@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
-public class UserSignUpRequest
+
+public class UserSignUpDto
 {
     [Required(ErrorMessage = "Ce champ ne peut être null")]
     public required string Email { get; set; }
 
     [Required(ErrorMessage = "Ce champ ne peut être null")]
-    public required string password { get; set; }
+    public required string Password { get; set; }
 
     [Required(ErrorMessage = "Ce champ ne peut être null")]
     public required string Nickname { get; set; }

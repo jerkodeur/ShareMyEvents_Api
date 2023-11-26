@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ShareMyEvents.Domain.Dtos.Resquests.ParticipationRequests;
-public class ParticipationCreateRequest
+public class ParticipationDeleteDto
 {
     [Required(ErrorMessage = "Ce champ ne peut être null")]
-    public required string Name { get; set; }
-
-    [Required(ErrorMessage = "Ce champ ne peut être null")]
-    public required  string Email { get; set; }
+    public int ParticipationId { get; set; }
 
     [Required(ErrorMessage = "Ce champ ne peut être null")]
     public int EventId { get; set; }

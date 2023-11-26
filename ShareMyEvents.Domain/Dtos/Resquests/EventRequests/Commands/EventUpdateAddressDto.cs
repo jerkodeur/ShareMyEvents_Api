@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ShareMyEvents.Domain.Entities;
 
-namespace ShareMyEvents.Domain.Dtos.Resquests.EventRequests;
+namespace ShareMyEvents.Domain.Dtos.Resquests.EventRequests.Commands;
 public class EventUpdateAddressDto
 {
     public Address? Address { get; set; }
