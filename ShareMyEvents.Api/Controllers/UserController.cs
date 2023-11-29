@@ -1,4 +1,4 @@
-﻿using Jerkoder.Common.Domain.CQRS.Interfaces.Mediator;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Api.Requests.UserRequests;
@@ -38,10 +38,10 @@ public class UserController: ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> LogInAsync ([FromBody] UserLoginCommand request)
+    public async Task<IActionResult> LogInAsync ([FromBody] UserLoginQuery request)
     {
 
-        var result = await _mediator.SendAsync(new UserLogInCommandRequest(request), _token);
+        var result = await _mediator.Send(new UserLogInQueryRequest(request), _token);
        
         if (result.IsSucceeded)
         {

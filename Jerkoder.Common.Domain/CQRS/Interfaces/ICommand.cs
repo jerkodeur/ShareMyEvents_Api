@@ -1,11 +1,11 @@
-﻿using Jerkoder.Common.Domain.CQRS.Interfaces.Mediator;
+﻿using MediatR;
 
 namespace Jerkoder.Common.Domain.CQRS.Interfaces;
 
-public interface ICommand : IRequest<Result>
+public interface ICommand : IRequest
 {
 }
 
-public interface ICommand<TResponse> : IRequest<Result<TResponse>>
+public interface ICommand<TResponse> : IRequest<TResponse>
 {
 }

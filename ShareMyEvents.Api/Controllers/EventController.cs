@@ -1,4 +1,4 @@
-﻿using Jerkoder.Common.Domain.CQRS.Interfaces.Mediator;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Api.Exceptions;
@@ -74,11 +74,11 @@ public class EventController: ControllerBase
     [Route("new")]
     public async Task<ActionResult<EventCreatedResponse>> NewEventAsync ([FromBody] EventCreateCommand request)
     {
-        var result = await _mediator.SendAsync(new EventCreateCommandRequest(request), _token);
+        var result = await _mediator.Send(new EventCreateCommandRequest(request), _token);
 
         if(result.IsSucceeded)
         {
-            CreatedAtRoute(routeName: "GetEvent", routeValues: new { id = result.Response.Id }, value: result.Response);
+            CreatedAtRoute(routeName: "GetEvent", routeValues: new { id = result.Response.EventId }, value: result.Response);
         }
 
         return result.Error.code switch

@@ -2,9 +2,7 @@
 using ShareMyEvents.Api.Services;
 using NSwag;
 using NSwag.Generation.Processors.Security;
-using Jerkoder.Common.Core.Configurations;
 using System.Reflection;
-using Jerkoder.Common.Domain.CQRS.Interfaces;
 using ShareMyEvents.Api.Configuration.OptionsSetup;
 using ShareMyEvents.Api.Configuration.Authentication;
 using ShareMyEvents.Domain.Interfaces;
@@ -12,6 +10,7 @@ using Jerkoder.Common.Domain.Jwt.Interfaces;
 using Microsoft.Extensions.Options;
 using Jerkoder.Common.Domain.Database;
 using ShareMyEvents.Api.Database;
+using Jerkoder.Common.Domain.Database.Interfaces;
 
 namespace ShareMyEvents.Api.Configuration;
 internal class Startup
@@ -41,14 +40,17 @@ internal class Startup
             // DbContext
             ConfigureDbContextService(services);
 
+            // Repositories
+            RegisterRepositories(services, Assembly.GetExecutingAssembly());
+
             // Authentication with JWT
             ConfigureAuthenticationService(services, context);
 
             // Swagger
             ConfigureSwaggerService(services);
 
-            // Mediator
-            ConfigureMediatorService(services);
+            // MediatR
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             RegisterDomainServices(services);
         });
@@ -62,7 +64,7 @@ internal class Startup
         if(app.Environment.IsDevelopment())
         {
             app.UseOpenApi();
-            app.UseSwaggerUi3();
+            app.UseSwaggerUi();
             app.UseDeveloperExceptionPage();
         }
 
@@ -135,15 +137,6 @@ internal class Startup
         });
     }
 
-    private static void ConfigureMediatorService(IServiceCollection services)
-    {
-        var mediator = services.AddMediator(Assembly.GetExecutingAssembly())
-            .BuildServiceProvider()
-            .GetRequiredService<IMediator>();
-
-        _builder.Services.AddSingleton(mediator);
-    }
-
     private static void RegisterDomainServices(IServiceCollection services)
     {
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -152,5 +145,28 @@ internal class Startup
         services.AddScoped<IJwtProvider<User>, JwtProvider>();
         services.AddTransient<IUnitOfWork, UnitOfWork>();
         services.AddTransient<CancellationTokenSource, CancellationTokenSource>();
+    }
+
+    private static void RegisterRepositories (IServiceCollection services, Assembly assembly)
+    {
+        var repositoryTypes = assembly.GetTypes()
+            .Where(type => !type.IsAbstract && !type.IsInterface && type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IBaseRepository<>)));
+
+        // filter out RepositoryBase<>
+        var nonBaseRepos = repositoryTypes.Where(t => t != typeof(IBaseRepository<>));
+
+        foreach(var repositoryType in nonBaseRepos)
+        {
+            var interfaces = repositoryType.GetInterfaces()
+                .Where(@interface => !@interface.IsGenericType)
+                .ToList();
+
+            if(interfaces.Count != 1)
+            {
+                throw new InvalidOperationException($"Repository '{repositoryType.Name}' must implement only one interface that implements IBaseRepository<>.");
+            }
+
+            services.AddTransient(interfaces[0], repositoryType);
+        }
     }
 }
