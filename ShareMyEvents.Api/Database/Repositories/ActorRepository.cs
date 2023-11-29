@@ -1,11 +1,10 @@
-﻿using Jerkoder.Common.Core.Repository;
-using ShareMyEvents.Domain.Interfaces.Repositories;
+﻿using ShareMyEvents.Domain.Interfaces.Repositories;
 
 namespace ShareMyEvents.Api.Database.Repositories;
 
-public class ActorRepository: BaseRepository<Actor>, IActorRepository
+internal sealed class ActorRepository: GenericRepository<Actor, ActorId>, IActorRepository
 {
-    public ActorRepository (DbContext _context) : base(_context)
+    public ActorRepository (ShareMyEventsApiContext _context) : base(_context)
     {
     }
 }

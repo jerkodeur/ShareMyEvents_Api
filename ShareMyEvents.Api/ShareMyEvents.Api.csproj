@@ -12,8 +12,9 @@
 	</PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.0.0-preview010" />
   </ItemGroup>
@@ -22,9 +23,5 @@
     <ProjectReference Include="..\Jerkoder.Common.Domain\Jerkoder.Common.Domain.csproj" />
 	  <ProjectReference Include="..\Jerkoder.Common.Core\Jerkoder.Common.Core.csproj" />
     <ProjectReference Include="..\ShareMyEvents.Domain\ShareMyEvents.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

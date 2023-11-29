@@ -1,11 +1,10 @@
-﻿using Jerkoder.Common.Core.Repository;
-using ShareMyEvents.Domain.Interfaces.Repositories;
+﻿using ShareMyEvents.Domain.Interfaces.Repositories;
 
 namespace ShareMyEvents.Api.Database.Repositories;
 
-public class AvailabilityRepository: BaseRepository<Availability>, IAvailabilityRepository
+internal sealed class AvailabilityRepository: GenericRepository<Availability, AvailabilityId>, IAvailabilityRepository
 {
-    public AvailabilityRepository (DbContext _context) : base(_context)
+    public AvailabilityRepository (ShareMyEventsApiContext _context) : base(_context)
     {
     }
 }

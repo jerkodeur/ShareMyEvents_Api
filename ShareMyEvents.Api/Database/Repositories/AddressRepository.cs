@@ -1,11 +1,10 @@
-﻿using Jerkoder.Common.Core.Repository;
-using ShareMyEvents.Domain.Interfaces.Repositories;
+﻿using ShareMyEvents.Domain.Interfaces.Repositories;
 
 namespace ShareMyEvents.Api.Database.Repositories;
 
-public class AddressRepository: BaseRepository<Address>, IAddressRepository
+internal sealed class AddressRepository: GenericRepository<Address, AddressId>, IAddressRepository
 {
-    public AddressRepository (DbContext _context) : base(_context)
+    public AddressRepository (ShareMyEventsApiContext _context) : base(_context)
     {
     }
 }
