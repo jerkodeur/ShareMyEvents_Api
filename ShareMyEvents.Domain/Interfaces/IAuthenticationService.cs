@@ -3,5 +3,5 @@
 namespace ShareMyEvents.Domain.Interfaces;
 public interface IAuthenticationService
 {
-    public Task<string> Authenticate (UserLoginCommand request);
+    public Task<string> Authenticate (UserLoginQuery request);
 }

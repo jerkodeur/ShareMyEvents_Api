@@ -3,11 +3,11 @@ using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
 
 namespace ShareMyEvents.Api.Requests.UserRequests;
 
-public class UserLogInCommandRequest: ICommand<string>
+public class UserLogInQueryRequest: IQuery<Result<string>>
 {
-    public UserLoginCommand Command { get; }
+    public UserLoginQuery Command { get; }
 
-    public UserLogInCommandRequest (UserLoginCommand command)
+    public UserLogInQueryRequest (UserLoginQuery command)
     {
         Command = command;
     }

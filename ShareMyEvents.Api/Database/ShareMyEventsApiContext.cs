@@ -50,7 +50,7 @@ namespace ShareMyEvents.Api.Database
 
             foreach(var entry in entries)
             {
-                // for entities that inherit from BaseEntity,
+                // for entities that inherit from Entity,
                 // set UpdatedOn / CreatedOn appropriately
                 if(entry.Entity is TrackedEntity trackable)
                 {

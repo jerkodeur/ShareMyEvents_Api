@@ -5,18 +5,18 @@ using ShareMyEvents.Domain.Interfaces.Repositories;
 
 namespace ShareMyEvents.Api.Handlers.UserHandlers;
 
-internal sealed class UserLoginCommandHandler: ICommandHandler<UserLogInCommandRequest, string>
+internal sealed class UserLoginQueryHandler: IQueryHandler<UserLogInQueryRequest, Result<string>>
 {
     private readonly IUserRepository _userRepo;
     private readonly IJwtProvider<User> _jwtProvider;
 
-    public UserLoginCommandHandler (IUserRepository userRepo, IJwtProvider<User> jwtProvider)
+    public UserLoginQueryHandler (IUserRepository userRepo, IJwtProvider<User> jwtProvider)
     {
         _userRepo = userRepo ?? throw new ArgumentNullException(nameof(userRepo));
         _jwtProvider = jwtProvider ?? throw new ArgumentNullException(nameof(jwtProvider));
     }
 
-    public async Task<Result<string>> HandleAsync (UserLogInCommandRequest request, CancellationToken cancellationToken)
+    public async Task<Result<string>> Handle (UserLogInQueryRequest request, CancellationToken cancellationToken)
     {
         Task.CompletedTask.Wait(100);
 
