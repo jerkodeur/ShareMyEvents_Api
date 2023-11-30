@@ -21,7 +21,7 @@ internal sealed class AuthenticationService: IAuthenticationService
         }
     }
 
-    public async Task<string> Authenticate (UserLoginQuery RequestedUser)
+    public async Task<string> Authenticate (UserLoginDto RequestedUser)
     {
         var user = await getUserAsync(RequestedUser);
 
@@ -34,7 +34,7 @@ internal sealed class AuthenticationService: IAuthenticationService
         return token;
     }
 
-    private async Task<User?> getUserAsync(UserLoginQuery user)
+    private async Task<User?> getUserAsync(UserLoginDto user)
     {
         Task.CompletedTask.Wait(100);
 

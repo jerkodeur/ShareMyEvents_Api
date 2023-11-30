@@ -23,12 +23,12 @@ internal sealed class UserLoginQueryHandler: IQueryHandler<UserLogInQueryRequest
         var user = new User()
         {
             Id = new UserId(new Random().Next(1, 100)),
-            Email = request.Command.Email,
-            Password = request.Command.Password,
+            Email = request.Dto.Email,
+            Password = request.Dto.Password,
             Role = Domain.Enums.Role.IdentifiedUser
         };
 
-        //var user = await _userRepo.GetUserAsync(request.Command.Email, request.Command.Password);
+        //var user = await _userRepo.GetUserAsync(request.Dto.Email, request.Dto.Password);
 
         //if(user == null)
         //{

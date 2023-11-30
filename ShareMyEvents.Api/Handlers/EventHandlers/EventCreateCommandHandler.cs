@@ -26,10 +26,10 @@ internal sealed class EventCreateCommandHandler : ICommandHandler<EventCreateCom
         var newEvent = new Event()
         {
             Id = new EventId(new Random().Next(0, 100)),
-            Title = request.Command.Title,
-            Description = request.Command.Description,
-            EventDate = request.Command.EventDate,
-            Address = request.Command.Address,
+            Title = request.Dto.Title,
+            Description = request.Dto.Description,
+            EventDate = request.Dto.EventDate,
+            Address = request.Dto.Address,
             OrganizerId = organizer.Id,
             Organizer = organizer,
             Code = new Code(Guid.NewGuid()), /* To change */

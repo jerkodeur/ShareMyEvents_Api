@@ -1,13 +1,13 @@
-﻿using MediatR;
+﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
 using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
 
 namespace ShareMyEvents.Api.Requests.UserRequests;
 
-public class UserResetPasswordRequest: IRequest<User>
+public class UserResetPasswordCommandRequest: ICommand
 {
     public UserResetPasswordDto Dto { get; }
 
-    public UserResetPasswordRequest (UserResetPasswordDto dto)
+    public UserResetPasswordCommandRequest (UserResetPasswordDto dto)
     {
         Dto = dto;
     }

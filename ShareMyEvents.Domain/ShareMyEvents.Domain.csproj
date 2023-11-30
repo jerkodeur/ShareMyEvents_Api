@@ -7,14 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
 	<ProjectReference Include="..\Jerkoder.Common.Domain\Jerkoder.Common.Domain.csproj" />
-    <ProjectReference Include="..\Jerkoder.Common.Domain\Jerkoder.Common.Domain.csproj" />
   </ItemGroup>
 
 </Project>

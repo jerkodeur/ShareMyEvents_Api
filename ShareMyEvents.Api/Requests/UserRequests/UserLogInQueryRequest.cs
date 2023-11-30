@@ -5,10 +5,10 @@ namespace ShareMyEvents.Api.Requests.UserRequests;
 
 public class UserLogInQueryRequest: IQuery<Result<string>>
 {
-    public UserLoginQuery Command { get; }
+    public UserLoginDto Dto { get; }
 
-    public UserLogInQueryRequest (UserLoginQuery command)
+    public UserLogInQueryRequest (UserLoginDto dto)
     {
-        Command = command;
+        Dto = dto;
     }
 }

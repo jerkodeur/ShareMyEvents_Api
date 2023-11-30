@@ -1,15 +1,15 @@
 ﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
+using ShareMyEvents.Domain.Dtos.Requests.EventRequests;
 using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
-using ShareMyEvents.Domain.Dtos.Resquests.EventRequests.Commands;
 
 namespace ShareMyEvents.Api.Requests.EventRequests;
 
 internal class EventCreateCommandRequest : ICommand<Result<EventCreatedResponse>>
 {
-    public EventCreateCommand Command { get; }
+    public EventCreateDto Dto { get; }
 
-    public EventCreateCommandRequest(EventCreateCommand command)
+    public EventCreateCommandRequest(EventCreateDto dto)
     {
-        Command = command;
+        Dto = dto;
     }
 }

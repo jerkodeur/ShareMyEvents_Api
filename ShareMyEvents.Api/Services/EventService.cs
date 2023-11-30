@@ -1,7 +1,7 @@
 ﻿using ShareMyEvents.Api.Database;
 using ShareMyEvents.Api.Exceptions;
+using ShareMyEvents.Domain.Dtos.Requests.EventRequests;
 using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
-using ShareMyEvents.Domain.Dtos.Resquests.EventRequests.Commands;
 using ShareMyEvents.Domain.Interfaces;
 
 namespace ShareMyEvents.Api.Services;
@@ -38,7 +38,7 @@ public class EventService: IEventService
         return response;
     }
 
-    public async Task<EventCreatedResponse> CreateAsync (EventCreateCommand request, CancellationToken token = default)
+    public async Task<EventCreatedResponse> CreateAsync (EventCreateDto request, CancellationToken token = default)
     {
         var organizer = new Actor()
         {

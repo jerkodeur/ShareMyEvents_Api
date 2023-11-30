@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Jerkoder.Common.Domain.CQRS.Interfaces;
-using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
 using ShareMyEvents.Domain.Entities;
 
-namespace ShareMyEvents.Domain.Dtos.Resquests.EventRequests.Commands;
-public class EventCreateCommand : ICommand<EventCreatedResponse>
+namespace ShareMyEvents.Domain.Dtos.Requests.EventRequests;
+public class EventCreateDto
 {
     [Required(ErrorMessage = "Ce champ ne peut être null")]
     [DefaultValue("My Event")]

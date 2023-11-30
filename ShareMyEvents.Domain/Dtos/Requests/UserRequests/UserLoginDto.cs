@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Jerkoder.Common.Domain.CQRS.Interfaces;
 
 namespace ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
-public class UserLoginQuery : IQuery<string>
+public class UserLoginDto
 {
     [DefaultValue("mon-Email.mon-domain.fr")]
     [Required(ErrorMessage = "Ce champ ne peut être null")]

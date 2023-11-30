@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Api.Exceptions;
-using ShareMyEvents.Api.Requests.EventRequests;
+using ShareMyEvents.Domain.Dtos.Requests.EventRequests;
 using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
-using ShareMyEvents.Domain.Dtos.Resquests.EventRequests.Commands;
 using ShareMyEvents.Domain.Enums;
 using ShareMyEvents.Domain.Interfaces;
 
@@ -72,9 +71,9 @@ public class EventController: ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize(Roles = nameof(Role.IdentifiedUser))]
     [Route("new")]
-    public async Task<ActionResult<EventCreatedResponse>> NewEventAsync ([FromBody] EventCreateCommand request)
+    public async Task<ActionResult<EventCreatedResponse>> NewEventAsync ([FromBody] EventCreateDto request)
     {
-        var result = await _mediator.Send(new EventCreateCommandRequest(request), _token);
+        var result = await _mediator.Send(new Requests.EventRequests.EventCreateCommandRequest(request), _token);
 
         if(result.IsSucceeded)
         {

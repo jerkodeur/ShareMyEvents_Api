@@ -38,7 +38,7 @@ public class UserController: ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> LogInAsync ([FromBody] UserLoginQuery request)
+    public async Task<IActionResult> LogInAsync ([FromBody] UserLoginDto request)
     {
 
         var result = await _mediator.Send(new UserLogInQueryRequest(request), _token);
@@ -58,7 +58,7 @@ public class UserController: ControllerBase
     [HttpPatch]
     [Authorize]
     [Route("lost-Password")]
-    public async Task<IActionResult> LostPasswordAsync ([FromBody] UserLostPasswordDto request)
+    public async Task<IActionResult> LostPasswordAsync ([FromBody] Domain.Dtos.Resquests.UserRequests.UserLostPasswordDto request)
     {
         await Task.CompletedTask;
         return StatusCode(StatusCodes.Status202Accepted);
