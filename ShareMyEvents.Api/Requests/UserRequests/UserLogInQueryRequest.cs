@@ -1,14 +1,17 @@
 ﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
+using ShareMyEvents.Domain.Dtos.Responses.UserResponses;
 using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
 
 namespace ShareMyEvents.Api.Requests.UserRequests;
 
-public class UserLogInQueryRequest: IQuery<Result<string>>
+public sealed record UserLogInQueryRequest: IQuery<UserLoginResponse>
 {
-    public UserLoginDto Dto { get; }
+    public string Email { get; set; }
+    public string Password { get; set; }
 
     public UserLogInQueryRequest (UserLoginDto dto)
     {
-        Dto = dto;
+        Email = dto.Email;
+        Password = dto.Password;
     }
 }

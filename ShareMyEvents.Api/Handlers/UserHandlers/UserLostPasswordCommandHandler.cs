@@ -5,5 +5,5 @@ namespace ShareMyEvents.Api.Handlers.UserHandlers;
 
 public class UserLostPasswordCommandHandler: ICommandHandler<UserLostPasswordCommandRequest>
 {
-    public Task Handle (UserLostPasswordCommandRequest request, CancellationToken cancellationToken) => throw new NotImplementedException();
+    public Task<Result> Handle (UserLostPasswordCommandRequest request, CancellationToken cancellationToken) => throw new NotImplementedException();
 }

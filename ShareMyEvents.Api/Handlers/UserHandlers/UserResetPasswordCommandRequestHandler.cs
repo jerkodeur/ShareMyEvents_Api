@@ -5,5 +5,5 @@ namespace ShareMyEvents.Api.Handlers.UserHandlers;
 
 public class UserResetPasswordCommandRequestHandler: ICommandHandler<UserResetPasswordCommandRequest>
 {
-    public Task Handle (UserResetPasswordCommandRequest request, CancellationToken cancellationToken) => throw new NotImplementedException();
+    public Task<Result> Handle (UserResetPasswordCommandRequest request, CancellationToken cancellationToken) => throw new NotImplementedException();
 }

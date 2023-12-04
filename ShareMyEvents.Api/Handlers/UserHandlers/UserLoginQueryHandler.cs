@@ -1,11 +1,12 @@
 ﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
 using Jerkoder.Common.Domain.Jwt.Interfaces;
 using ShareMyEvents.Api.Requests.UserRequests;
+using ShareMyEvents.Domain.Dtos.Responses.UserResponses;
 using ShareMyEvents.Domain.Interfaces.Repositories;
 
 namespace ShareMyEvents.Api.Handlers.UserHandlers;
 
-internal sealed class UserLoginQueryHandler: IQueryHandler<UserLogInQueryRequest, Result<string>>
+internal sealed class UserLoginQueryHandler: IQueryHandler<UserLogInQueryRequest, UserLoginResponse>
 {
     private readonly IUserRepository _userRepo;
     private readonly IJwtProvider<User> _jwtProvider;
@@ -16,15 +17,15 @@ internal sealed class UserLoginQueryHandler: IQueryHandler<UserLogInQueryRequest
         _jwtProvider = jwtProvider ?? throw new ArgumentNullException(nameof(jwtProvider));
     }
 
-    public async Task<Result<string>> Handle (UserLogInQueryRequest request, CancellationToken cancellationToken)
+    public async Task<Result<UserLoginResponse>> Handle (UserLogInQueryRequest request, CancellationToken cancellationToken)
     {
         Task.CompletedTask.Wait(100);
 
         var user = new User()
         {
             Id = new UserId(new Random().Next(1, 100)),
-            Email = request.Dto.Email,
-            Password = request.Dto.Password,
+            Email = request.Email,
+            Password = request.Password,
             Role = Domain.Enums.Role.IdentifiedUser
         };
 
@@ -37,6 +38,8 @@ internal sealed class UserLoginQueryHandler: IQueryHandler<UserLogInQueryRequest
 
         string token = _jwtProvider.GenerateToken(user!);
 
-        return Result<string>.Success(token);
+        var response = new UserLoginResponse(token);
+
+        return response;
     }
 }

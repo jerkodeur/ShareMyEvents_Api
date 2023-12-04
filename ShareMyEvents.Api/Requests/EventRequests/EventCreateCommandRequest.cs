@@ -4,7 +4,7 @@ using ShareMyEvents.Domain.Dtos.Responses.EventResponses;
 
 namespace ShareMyEvents.Api.Requests.EventRequests;
 
-internal class EventCreateCommandRequest : ICommand<Result<EventCreatedResponse>>
+internal class EventCreateCommandRequest : ICommand<EventCreatedResponse>
 {
     public EventCreateDto Dto { get; }
 

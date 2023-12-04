@@ -5,7 +5,7 @@ using ShareMyEvents.Domain.Interfaces;
 
 namespace ShareMyEvents.Api.Handlers.EventHandlers;
 
-internal sealed class EventCreateCommandHandler : ICommandHandler<EventCreateCommandRequest, Result<EventCreatedResponse>>
+internal sealed class EventCreateCommandHandler : ICommandHandler<EventCreateCommandRequest, EventCreatedResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -38,6 +38,6 @@ internal sealed class EventCreateCommandHandler : ICommandHandler<EventCreateCom
         await _unitOfWork.EventRepository.Add(newEvent);
         await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-        return Result<EventCreatedResponse>.Success(new EventCreatedResponse() { EventId = newEvent.Id.Value });
+        return new EventCreatedResponse() { EventId = newEvent.Id.Value };
     }
 }

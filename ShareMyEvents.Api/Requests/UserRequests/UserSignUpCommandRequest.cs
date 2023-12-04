@@ -4,7 +4,7 @@ using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
 
 namespace ShareMyEvents.Api.Requests.UserRequests;
 
-public class UserSignUpCommandRequest: ICommand<Result<UserSignUpResponse>>
+public class UserSignUpCommandRequest: ICommand<UserSignUpResponse>
 {
     public UserSignUpDto Dto { get; }
 
