@@ -12,17 +12,16 @@ namespace ShareMyEvents.Api.Controllers;
 [Produces("application/json")]
 [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 [ApiController]
-public class EventController: ControllerBase
+public class EventController: ApiController
 {
-    private readonly IMediator _mediator;
     private readonly IEventService _service;
-    private CancellationToken _token;
 
-    public EventController (IMediator mediator, IEventService service, CancellationTokenSource cancellationToken)
+    public EventController (
+        IMediator mediator, 
+        CancellationTokenSource cancellationToken, 
+        IEventService service) : base(mediator, cancellationToken)
     {
-        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        _service = service ?? throw new ArgumentNullException(nameof(service));
-        _token = cancellationToken.Token;
+        _service = service;
     }
 
     /// <summary>
@@ -43,7 +42,7 @@ public class EventController: ControllerBase
 
         try
         {
-            eventPageResponse = await _service.GetByIdAsync(id, _token);
+            eventPageResponse = await _service.GetByIdAsync(id, _cancellationToken);
         }
         catch(NotFoundException ex)
         {
@@ -71,20 +70,17 @@ public class EventController: ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize(Roles = nameof(Role.IdentifiedUser))]
     [Route("new")]
-    public async Task<ActionResult<EventCreatedResponse>> NewEventAsync ([FromBody] EventCreateDto request)
+    public async Task<IActionResult> NewEventAsync ([FromBody] EventCreateDto request)
     {
-        var result = await _mediator.Send(new Requests.EventRequests.EventCreateCommandRequest(request), _token);
+        var result = await _sender.Send(new Requests.EventRequests.EventCreateCommandRequest(request), _cancellationToken);
 
-        if(result.IsSucceeded)
+        if(result.IsFailed)
         {
-            CreatedAtRoute(routeName: "GetEvent", routeValues: new { id = result.Response.EventId }, value: result.Response);
+            return HandleFailure(result);
         }
-
-        return result.Error.code switch
-        {
-            "Event.NotFound" => NotFound(result.Error),
-            _ => BadRequest(result.Error)
-        };
+            
+        return CreatedAtRoute(routeName: "GetEvent", routeValues: new { id = result.Response!.EventId }, value: result.Response);
+        
     }
 
     //[HttpPost]
@@ -114,7 +110,7 @@ public class EventController: ControllerBase
 
         try
         {
-            eventUpdateTitleResponse = await _service.UpdateTitleResponseAsync(id, request, _token);
+            eventUpdateTitleResponse = await _service.UpdateTitleResponseAsync(id, request, _cancellationToken);
         }
         catch(NotFoundException ex)
         {
@@ -149,7 +145,7 @@ public class EventController: ControllerBase
 
         try
         {
-            eventUpdateDescriptionResponse = await _service.UpdateDescriptionResponseAsync(id, request, _token);
+            eventUpdateDescriptionResponse = await _service.UpdateDescriptionResponseAsync(id, request, _cancellationToken);
         }
         catch(NotFoundException ex)
         {
@@ -183,7 +179,7 @@ public class EventController: ControllerBase
 
         try
         {
-            eventUpdateDateResponse = await _service.UpdateDateResponseAsync(id, request, _token);
+            eventUpdateDateResponse = await _service.UpdateDateResponseAsync(id, request, _cancellationToken);
         }
         catch(NotFoundException ex)
         {
@@ -214,7 +210,7 @@ public class EventController: ControllerBase
     {
         try
         {
-            await _service.DeleteAsync(id, _token);
+            await _service.DeleteAsync(id, _cancellationToken);
         }
         catch(NotFoundException ex)
         {

@@ -3,29 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShareMyEvents.Api.Requests.UserRequests;
 using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
-using ShareMyEvents.Domain.Interfaces;
 
 namespace ShareMyEvents.Api.Controllers;
 [Route("users")]
 [ApiController]
-public class UserController: ControllerBase
+public class UserController: ApiController
 {
-    private readonly IMediator _mediator;
-    private readonly CancellationToken _token;
-
-    private IAuthenticationService _service { get; set; }
-
-    public UserController (IAuthenticationService service, IMediator mediator, CancellationTokenSource cancellationToken)
+    public UserController (IMediator mediator, CancellationTokenSource cancellationToken) : base(mediator, cancellationToken)
     {
-        _service = service ?? throw new ArgumentNullException(nameof(service));
-        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-
-        if (cancellationToken is null)
-        {
-            throw new ArgumentNullException(nameof(cancellationToken));
-        }
-
-        _token = cancellationToken.Token;
     }
 
     [HttpPost]
@@ -41,18 +26,14 @@ public class UserController: ControllerBase
     public async Task<IActionResult> LogInAsync ([FromBody] UserLoginDto request)
     {
 
-        var result = await _mediator.Send(new UserLogInQueryRequest(request), _token);
+        var result = await _sender.Send(new UserLogInQueryRequest(request), _cancellationToken);
        
-        if (result.IsSucceeded)
+        if (result.IsFailed)
         {
-            return Ok(result.Response);
+            return HandleFailure(result);
         }
 
-        return result.Error.code switch
-        {
-            "User.NotFound" => NotFound(result.Error),
-            _ => BadRequest(result.Error)
-        };
+         return Ok(result.Response);
     }
 
     [HttpPatch]
