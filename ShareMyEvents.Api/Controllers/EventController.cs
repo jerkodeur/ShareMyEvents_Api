@@ -72,7 +72,7 @@ public class EventController: ApiController
     [Route("new")]
     public async Task<IActionResult> NewEventAsync ([FromBody] EventCreateDto request)
     {
-        var result = await _sender.Send(new Requests.EventRequests.EventCreateCommandRequest(request), _cancellationToken);
+        var result = await _sender.Send(new Requests.EventRequests.EventCreateCommand(request), _cancellationToken);
 
         if(result.IsFailed)
         {

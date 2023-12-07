@@ -5,7 +5,7 @@ using ShareMyEvents.Domain.Interfaces;
 
 namespace ShareMyEvents.Api.Handlers.EventHandlers;
 
-internal sealed class EventCreateCommandHandler : ICommandHandler<EventCreateCommandRequest, EventCreatedResponse>
+internal sealed class EventCreateCommandHandler : ICommandHandler<EventCreateCommand, EventCreatedResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -14,7 +14,7 @@ internal sealed class EventCreateCommandHandler : ICommandHandler<EventCreateCom
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public async Task<Result<EventCreatedResponse>> Handle(EventCreateCommandRequest request, CancellationToken cancellationToken)
+    public async Task<Result<EventCreatedResponse>> Handle(EventCreateCommand request, CancellationToken cancellationToken)
     {
         var organizer = new Actor()
         {

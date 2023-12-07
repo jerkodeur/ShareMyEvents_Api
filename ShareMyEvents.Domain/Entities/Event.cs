@@ -11,7 +11,7 @@ public class Event: TrackedEntity<EventId>
 
     public required ActorId OrganizerId { get; set; }
 
-    public Address Address { get; set; } = null!;
+    public Address? Address { get; set; } = null!;
     public required Actor Organizer { get; set; }
 
     public List<Participation> Participations { get; set; } = new ();

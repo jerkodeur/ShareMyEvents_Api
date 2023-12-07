@@ -4,12 +4,12 @@ using ShareMyEvents.Domain.Dtos.Resquests.UserRequests;
 
 namespace ShareMyEvents.Api.Requests.UserRequests;
 
-public sealed record UserLogInQueryRequest: IQuery<UserLoginResponse>
+public sealed record UserLogInQuery: IQuery<UserLoginResponse>
 {
     public string Email { get; set; }
     public string Password { get; set; }
 
-    public UserLogInQueryRequest (UserLoginDto dto)
+    public UserLogInQuery (UserLoginDto dto)
     {
         Email = dto.Email;
         Password = dto.Password;

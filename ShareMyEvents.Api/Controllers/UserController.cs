@@ -26,7 +26,7 @@ public class UserController: ApiController
     public async Task<IActionResult> LogInAsync ([FromBody] UserLoginDto request)
     {
 
-        var result = await _sender.Send(new UserLogInQueryRequest(request), _cancellationToken);
+        var result = await _sender.Send(new UserLogInQuery(request), _cancellationToken);
        
         if (result.IsFailed)
         {

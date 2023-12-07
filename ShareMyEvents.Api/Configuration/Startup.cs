@@ -11,6 +11,9 @@ using Microsoft.Extensions.Options;
 using Jerkoder.Common.Domain.Database;
 using ShareMyEvents.Api.Database;
 using Jerkoder.Common.Domain.Database.Interfaces;
+using FluentValidation;
+using MediatR;
+using ShareMyEvents.Api.Behaviors;
 
 namespace ShareMyEvents.Api.Configuration;
 internal class Startup
@@ -51,6 +54,9 @@ internal class Startup
 
             // MediatR
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
 
             RegisterDomainServices(services);
         });

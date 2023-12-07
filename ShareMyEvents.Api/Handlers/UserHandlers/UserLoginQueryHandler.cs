@@ -1,4 +1,5 @@
-﻿using Jerkoder.Common.Domain.CQRS.Interfaces;
+﻿using FluentValidation;
+using Jerkoder.Common.Domain.CQRS.Interfaces;
 using Jerkoder.Common.Domain.Jwt.Interfaces;
 using ShareMyEvents.Api.Requests.UserRequests;
 using ShareMyEvents.Domain.Dtos.Responses.UserResponses;
@@ -6,18 +7,23 @@ using ShareMyEvents.Domain.Interfaces.Repositories;
 
 namespace ShareMyEvents.Api.Handlers.UserHandlers;
 
-internal sealed class UserLoginQueryHandler: IQueryHandler<UserLogInQueryRequest, UserLoginResponse>
+internal sealed class UserLoginQueryHandler: IQueryHandler<UserLogInQuery, UserLoginResponse>
 {
     private readonly IUserRepository _userRepo;
     private readonly IJwtProvider<User> _jwtProvider;
+    private readonly IValidator<UserLogInQuery> _validator;
 
-    public UserLoginQueryHandler (IUserRepository userRepo, IJwtProvider<User> jwtProvider)
+    public UserLoginQueryHandler (
+        IUserRepository userRepo, 
+        IJwtProvider<User> jwtProvider, 
+        IValidator<UserLogInQuery> validator)
     {
         _userRepo = userRepo ?? throw new ArgumentNullException(nameof(userRepo));
         _jwtProvider = jwtProvider ?? throw new ArgumentNullException(nameof(jwtProvider));
+        _validator = validator ?? throw new ArgumentNullException(nameof(validator));
     }
 
-    public async Task<Result<UserLoginResponse>> Handle (UserLogInQueryRequest request, CancellationToken cancellationToken)
+    public async Task<Result<UserLoginResponse>> Handle (UserLogInQuery request, CancellationToken cancellationToken)
     {
         Task.CompletedTask.Wait(100);
 
