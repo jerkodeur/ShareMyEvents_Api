@@ -52,7 +52,7 @@ public class EventService: IEventService
             Id = new EventId(new Random().Next(0, 100)),
             Title = request.Title,
             Description = request.Description,
-            EventDate = request.EventDate,
+            EventDate = request.Date,
             Address = request.Address,
             OrganizerId = organizer.Id,
             Organizer = organizer,
